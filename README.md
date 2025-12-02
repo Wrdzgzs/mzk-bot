@@ -1,37 +1,38 @@
-<!-- 使用 HTML 块来保证完美的居中效果，不会出现 ** 乱码 -->
-<div class="center-block">
+<!-- 使用纯 HTML 区块来保证居中和样式，解决 Markdown 失效问题 -->
+<div style="text-align: center; margin-top: 20px;">
   
   <img src="avatar.jpg" width="120" height="120" style="border-radius: 50%; box-shadow: 0 0 20px rgba(233, 126, 179, 0.5); border: 3px solid #E97EB3; margin-bottom: 20px;">
 
   <!-- 标题 -->
-  <h1 style="background: linear-gradient(135deg, #E97EB3 0%, #8A66C2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0;">
+  <h1 style="background: linear-gradient(135deg, #E97EB3 0%, #8A66C2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0;">
     Mizuki Bot 帮助文档
   </h1>
 
-  <p style="color: #888; font-style: italic; margin-top: 10px;">
+  <p style="color: #888; font-style: italic; margin-bottom: 20px; font-weight: bold;">
     「 ボクは……ボクでいたいだけ 」
   </p>
 
   <!-- 徽章 -->
-  <p>
+  <div>
     <img src="https://img.shields.io/badge/Version-2.0.0-E97EB3?style=flat-square&logo=github">
     <img src="https://img.shields.io/badge/Status-Running-8A66C2?style=flat-square">
-  </p>
+  </div>
 
   <br>
 
-  <!-- 介绍文案 (使用 b 标签代替 **) -->
-  <p style="max-width: 600px; margin: 0 auto; line-height: 1.8;">
-    <b>Mizuki Bot</b> 专注于为 <b>Project Sekai</b> 和 <b>舞萌 DX</b> 玩家<br>
-    提供最便捷的查询服务。
+  <!-- 介绍文案 (用 b 标签代替 **) -->
+  <p style="font-size: 16px; line-height: 1.8; max-width: 600px; margin: 0 auto;">
+    <b>Mizuki Bot</b> 专注于为 <b>Project Sekai</b> 和 <b>舞萌 DX</b><br>
+    玩家提供最便捷的查询服务。
   </p>
 
 </div>
 
 <br>
+<br>
 
 <!-- 功能入口卡片 -->
-<!-- 注意：这里不需要用 Markdown 链接语法，直接用 HTML <a> 标签配合 index.html 里的样式 -->
+<!-- 依然使用 HTML 标签，保证兼容性 -->
 
 <a href="#/plugins?id=🎵-pjsk-相关功能-世界计划" class="card-link">
   🎵 <b>PJSK 相关功能</b>
@@ -58,5 +59,4 @@
   <span class="card-desc">查看开发团队名单</span>
 </a>
 
-<br>
 <br>
