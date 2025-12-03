@@ -16,97 +16,103 @@
       --navbar-height: 60px;
     }
 
-    /* 1. 顶部导航条 (核心修复：使用更强的选择器适配夜间模式) */
-    body::before {
-      content: "";
-      position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
-      background-color: rgba(255, 255, 255, 0.95); /* 默认亮色背景 */
-      backdrop-filter: blur(10px);
-      z-index: 100; 
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-      transition: background-color 0.3s ease;
-    }
-
-    /* !!! 这里修复了夜间模式顶部不黑的问题 !!! */
-    body.docsify-dark-mode::before {
-      background-color: #1a1a1a !important; /* 强制变黑 */
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-
-    /* 2. 三道杠菜单按钮 (核心修复：强制粉色，强制最顶层) */
-    .sidebar-toggle {
-      position: fixed !important;
-      left: 10px !important; 
-      top: 12px !important;
-      width: 40px !important;
-      height: 40px !important;
-      z-index: 9999 !important; /* 没人能挡住我 */
-      background: transparent !important;
-      padding: 0 !important;
-      /* 这里的代码让三道杠变成粉色 */
-      border-radius: 4px;
-    }
-    /* 强制三道杠内部线条颜色 */
-    body .sidebar-toggle span {
-      background-color: var(--mizuki-pink) !important; 
-      height: 3px !important;
-      margin-bottom: 5px !important;
-    }
-
-    /* 3. Logo 区域 (往右挪到 60px，防止和按钮重叠) */
-    .top-logo-area {
+    /* 1. 全新的顶部导航栏 (使用真实元素 + CSS变量) */
+    /* 关键：background-color 使用 var(--background) 让它自动跟随主题变黑变白 */
+    #mizuki-navbar {
       position: fixed;
       top: 0;
-      left: 60px; /* 给左边留出足够空间 */
-      height: 60px;
-      display: flex; align-items: center;
-      z-index: 101;
-      cursor: pointer;
+      left: 0;
+      width: 100%;
+      height: var(--navbar-height);
+      background-color: var(--background); /* 核心修复：跟随主题色 */
+      border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+      z-index: 50; /* 层级 50 */
+      display: flex;
+      align-items: center;
+      transition: background-color 0.3s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
-    .top-logo-img {
+
+    /* 2. Logo 区域 (放在导航栏里面) */
+    .nav-logo-box {
+      margin-left: 60px; /* 给左边的三道杠留位置 */
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      height: 100%;
+    }
+    .nav-logo-img {
       width: 32px; height: 32px;
       border-radius: 50%;
       border: 2px solid var(--mizuki-pink);
       margin-right: 10px;
     }
-    .top-logo-text {
-      font-weight: 900; font-size: 18px;
+    .nav-logo-text {
+      font-weight: 900;
+      font-size: 18px;
       color: var(--mizuki-pink);
     }
 
-    /* 4. 内容区域下移，防止被遮挡 */
-    .content { padding-top: 80px !important; max-width: 900px; }
+    /* 3. 三道杠菜单 (暴力修复) */
+    .sidebar-toggle {
+      position: fixed !important;
+      left: 10px !important;
+      top: 10px !important;
+      width: 44px !important;
+      height: 44px !important;
+      padding: 12px 0 0 0 !important; /* 调整内部位置 */
+      z-index: 999 !important; /* 层级最高，没人能挡 */
+      background: transparent !important;
+      border-radius: 8px;
+    }
+    /* 强制给三道杠加颜色，保证黑白背景都能看清 */
+    body .sidebar-toggle span {
+      background-color: var(--mizuki-pink) !important;
+      height: 3px !important;
+      width: 24px !important;
+      margin: 4px auto !important;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2); /* 加点阴影，防止背景太白看不清 */
+    }
 
-    /* 5. 卡片样式 */
+    /* 4. 日夜切换按钮 (固定在右上角) */
+    #docsify-darklight-theme-bit {
+      position: fixed !important;
+      top: 15px !important;
+      right: 15px !important;
+      z-index: 100 !important;
+    }
+
+    /* 5. 布局调整 */
+    .content {
+      padding-top: 80px !important; /* 给顶部栏留空 */
+      max-width: 900px;
+    }
+
+    /* 6. 卡片和其他美化 */
     .card-link {
       display: block; margin: 15px 0; padding: 20px;
-      background: #fff; 
+      background: var(--codeBackgroundColor); /* 跟随主题变色 */
       border: 1px solid rgba(233, 126, 179, 0.3);
       border-radius: 12px;
       text-decoration: none !important;
-      color: #333 !important;
-      box-shadow: 0 4px 10px rgba(233, 126, 179, 0.1);
-    }
-    /* 夜间模式卡片 */
-    body.docsify-dark-mode .card-link {
-      background: #2b2b2b; 
-      color: #fff !important;
-      border-color: rgba(233, 126, 179, 0.2);
+      color: var(--textColor) !important;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
     .card-desc { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 5px; font-weight: normal; }
     
-    /* 搜索框美化 */
-    .sidebar .search input {
-      border-radius: 4px;
-      border: 1px solid #ddd;
-    }
+    /* 去除侧边栏默认的顶部留白 */
+    .sidebar { padding-top: 0; }
   </style>
 </head>
 <body>
-  <!-- Logo 区域 -->
-  <div class="top-logo-area" onclick="location.hash='/'">
-    <img src="avatar.jpg" class="top-logo-img" onerror="this.style.display='none'">
-    <span class="top-logo-text">Mizuki Bot</span>
+
+  <!-- 这是一个真实的导航栏盒子 -->
+  <div id="mizuki-navbar">
+    <!-- Logo 点击回首页 -->
+    <div class="nav-logo-box" onclick="location.hash='/'">
+      <img src="avatar.jpg" class="nav-logo-img" onerror="this.style.display='none'">
+      <span class="nav-logo-text">Mizuki Bot</span>
+    </div>
   </div>
 
   <div id="app">🏃‍♂️ 启动中...</div>
@@ -117,12 +123,28 @@
       loadSidebar: true,
       subMaxLevel: 2,
       auto2top: true,
-      search: 'auto',
+      search: {
+        placeholder: '🔍 搜指令...',
+        noData: '找不到哦~',
+        depth: 6
+      },
       darklightTheme: {
         defaultTheme : 'light',
         siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
-        dark: { accent: '#E97EB3', toogleBackground : '#ffffff', background: '#1a1a1a', textColor: '#f0f0f0' },
-        light: { accent: '#E97EB3', toogleBackground : '#091a28' }
+        dark: { 
+          accent: '#E97EB3', 
+          toogleBackground : '#ffffff', 
+          background: '#121212', /* 纯黑背景 */
+          textColor: '#f0f0f0',
+          codeBackgroundColor: '#202020'
+        },
+        light: { 
+          accent: '#E97EB3', 
+          toogleBackground : '#091a28',
+          background: '#ffffff',
+          textColor: '#34495e',
+          codeBackgroundColor: '#f8f8f8'
+        }
       }
     }
   </script>
