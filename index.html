@@ -124,7 +124,7 @@
     </div>
   </div>
 
-  <script>
+   <script>
     // --- 瑞希海量语录库 ---
     // 放在这里保证优先执行
     try {
@@ -137,4 +137,54 @@
         { jp: "「 ボクの正体？ ……ふふ、秘密だよ 」", cn: "我的真面目？……呵呵，是秘密哦" },
         { jp: "「 君も、こっち側に来る？ 」", cn: "你也要，来这边吗？" },
         { jp: "「 未確定なままでいいんじゃない？ 」", cn: "保持未确定的状态，不也挺好吗？" },
-        { jp: "「
+        { jp: "「 ニーゴのみんなは、特別だから 」", cn: "因为 25 时的大家，是特别的" },
+        { jp: "「 かわいいは正義！だよね？ 」", cn: "可爱即正义！对吧？" },
+        { jp: "「 ほらほら、早くしないと置いてっちゃうよ〜 」", cn: "看吧看吧，不快点的话就要丢下你咯〜" },
+        { jp: "「 絵名、また自撮り？ふふっ 」", cn: "绘名，又在自拍？呵呵" },
+        { jp: "「 永遠なんてない、だからこそ…… 」", cn: "永远什么的并不存在，正因为如此……" },
+        { jp: "「 屋上って、風が気持ちいいよね 」", cn: "天台的风，真的很舒服呢" },
+        { jp: "「 ボクのこと、知りたい？ 」", cn: "想知道，关于我的事吗？" }
+      ];
+      
+      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      
+      // 直接操作 DOM，不等页面完全加载
+      const lt = document.getElementById('loading-text');
+      const ls = document.getElementById('loading-sub');
+      if (lt) lt.innerHTML = randomQuote.jp;
+      if (ls) ls.innerHTML = randomQuote.cn;
+    } catch(e) { console.log('Quote Error'); }
+    // ----------------------
+
+    function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
+    
+    window.addEventListener('hashchange', function() {
+      if (document.body.classList.contains('my-sidebar-show')) {
+        document.body.classList.remove('my-sidebar-show');
+      }
+    });
+
+    window.$docsify = {
+      repo: 'https://github.com/HX-Wrdzgzs/Mizuki-Bot',
+      name: '',
+      loadSidebar: true,
+      subMaxLevel: 3,
+      auto2top: true,
+      search: { placeholder: '🔍 搜指令...', noData: '找不到哦~', depth: 6 },
+      pagination: { previousText: '← 上一章', nextText: '下一章 →', crossChapter: true },
+      darklightTheme: {
+        defaultTheme : 'light',
+        siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
+        dark: { accent: '#E97EB3', toogleBackground : '#ffffff', background: '#121212', textColor: '#f0f0f0', codeBackgroundColor: '#202020' },
+        light: { accent: '#E97EB3', toogleBackground : '#091a28', background: '#ffffff', textColor: '#34495e', codeBackgroundColor: '#f8f8f8' }
+      }
+    }
+  </script>
+  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
+</body>
+</html>
