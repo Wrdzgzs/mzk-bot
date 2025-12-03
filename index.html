@@ -10,10 +10,8 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
 
   <style>
-    /* 增加平滑滚动，跳转体验更好 */
-    html {
-      scroll-behavior: smooth;
-    }
+    /* 增加平滑滚动 */
+    html { scroll-behavior: smooth; }
 
     :root {
       --mizuki-pink: #E97EB3;
@@ -49,7 +47,7 @@
       font-weight: 900; font-size: 18px; color: var(--mizuki-pink);
     }
 
-    /* 3. 侧边栏 */
+    /* 3. 侧边栏 (Solid Background) */
     .sidebar {
       position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
       width: 280px !important;
@@ -149,17 +147,15 @@
   <div id="app"></div>
 
   <script>
+    // 手动控制侧边栏开关
     function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
     
-    // 【修复跳转 Bug 的核心逻辑】
-    document.addEventListener('click', function(e) {
-      // 1. 只有点击了侧边栏里的链接 (.sidebar-nav a) 才会触发自动关闭
-      // 2. 只有侧边栏打开时才触发
-      if (e.target.closest('.sidebar-nav a') && document.body.classList.contains('my-sidebar-show')) {
-        // 3. 延长等待时间到 300ms，确保浏览器有足够时间执行跳转
-        setTimeout(() => { 
-          document.body.classList.remove('my-sidebar-show'); 
-        }, 300);
+    // 【核心修复】
+    // 监听 URL 变化 (HashChange)。
+    // 只有当网址真的变了（说明已经跳转成功了），才关闭侧边栏。
+    window.addEventListener('hashchange', function() {
+      if (document.body.classList.contains('my-sidebar-show')) {
+        document.body.classList.remove('my-sidebar-show');
       }
     });
 
@@ -180,4 +176,8 @@
         defaultTheme : 'light',
         siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
         dark: { accent: '#E97EB3', toogleBackground : '#ffffff', background: '#121212', textColor: '#f0f0f0', codeBackgroundColor: '#202020' },
-        light: { accent: '#E97EB3', toogleBackground : '#091a28', b
+        light: { accent: '#E97EB3', toogleBackground : '#091a28', background: '#ffffff', textColor: '#34495e', codeBackgroundColor: '#f8f8f8' }
+      }
+    }
+  </script>
+  <script src="//cdn.js
