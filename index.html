@@ -10,6 +10,11 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
 
   <style>
+    /* 增加平滑滚动，跳转体验更好 */
+    html {
+      scroll-behavior: smooth;
+    }
+
     :root {
       --mizuki-pink: #E97EB3;
       --niigo-purple: #8A66C2;
@@ -141,19 +146,24 @@
   </div>
   <div id="my-custom-toggle" onclick="toggleMySidebar()"><span></span><span></span><span></span></div>
   
-  <!-- 【关键修改】这里留空，什么都不写，就是最干净的加载 -->
   <div id="app"></div>
 
   <script>
     function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
+    
+    // 【修复跳转 Bug 的核心逻辑】
     document.addEventListener('click', function(e) {
-      if (e.target.closest('a') && document.body.classList.contains('my-sidebar-show')) {
-        setTimeout(() => { document.body.classList.remove('my-sidebar-show'); }, 150);
+      // 1. 只有点击了侧边栏里的链接 (.sidebar-nav a) 才会触发自动关闭
+      // 2. 只有侧边栏打开时才触发
+      if (e.target.closest('.sidebar-nav a') && document.body.classList.contains('my-sidebar-show')) {
+        // 3. 延长等待时间到 300ms，确保浏览器有足够时间执行跳转
+        setTimeout(() => { 
+          document.body.classList.remove('my-sidebar-show'); 
+        }, 300);
       }
     });
 
     window.$docsify = {
-      // 确保这里的 repo 地址是最新的
       repo: 'https://github.com/HX-Wrdzgzs/Mizuki-Bot',
       name: '',
       loadSidebar: true,
@@ -170,9 +180,4 @@
         defaultTheme : 'light',
         siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
         dark: { accent: '#E97EB3', toogleBackground : '#ffffff', background: '#121212', textColor: '#f0f0f0', codeBackgroundColor: '#202020' },
-        light: { accent: '#E97EB3', toogleBackground : '#091a28', background: '#ffffff', textColor: '#34495e', codeBackgroundColor: '#f8f8f8' }
-      }
-    }
-  </script>
-  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-  <scrip
+        light: { accent: '#E97EB3', toogleBackground : '#091a28', b
