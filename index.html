@@ -10,67 +10,41 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
 
   <style>
-    /* 平滑滚动 */
     html { scroll-behavior: smooth; }
-
-    :root {
-      --mizuki-pink: #E97EB3;
-      --niigo-purple: #8A66C2;
-      --navbar-height: 60px;
-    }
+    :root { --mizuki-pink: #E97EB3; --niigo-purple: #8A66C2; --navbar-height: 60px; }
 
     /* 1. 顶部导航栏 */
     #mizuki-navbar {
       position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
       background-color: rgba(255,255,255,0.95);
       border-bottom: 1px solid rgba(128, 128, 128, 0.1);
-      z-index: 50;
-      display: flex; align-items: center;
-      transition: background-color 0.3s;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      z-index: 50; display: flex; align-items: center;
+      transition: background-color 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
       backdrop-filter: blur(10px);
     }
     body.docsify-dark-mode #mizuki-navbar {
-      background-color: rgba(18, 18, 18, 0.95);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background-color: rgba(18, 18, 18, 0.95); border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
     /* 2. Logo */
-    .nav-logo-box {
-      margin-left: 60px; display: flex; align-items: center; cursor: pointer; height: 100%;
-    }
-    .nav-logo-img {
-      width: 32px; height: 32px; border-radius: 50%;
-      border: 2px solid var(--mizuki-pink); margin-right: 10px;
-    }
-    .nav-logo-text {
-      font-weight: 900; font-size: 18px; color: var(--mizuki-pink);
-    }
+    .nav-logo-box { margin-left: 60px; display: flex; align-items: center; cursor: pointer; height: 100%; }
+    .nav-logo-img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--mizuki-pink); margin-right: 10px; }
+    .nav-logo-text { font-weight: 900; font-size: 18px; color: var(--mizuki-pink); }
 
     /* 3. 侧边栏 */
     .sidebar {
       position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
-      width: 280px !important;
-      z-index: 100000 !important;
-      border-right: 1px solid rgba(128, 128, 128, 0.1);
-      padding-top: 80px !important;
-      transform: translateX(-120%);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.1);
-      background-color: #ffffff !important;
+      width: 280px !important; z-index: 100000 !important;
+      border-right: 1px solid rgba(128, 128, 128, 0.1); padding-top: 80px !important;
+      transform: translateX(-120%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.1); background-color: #ffffff !important;
     }
-    body.docsify-dark-mode .sidebar {
-      background-color: #121212 !important;
-      border-right: 1px solid rgba(255,255,255,0.05);
-    }
+    body.docsify-dark-mode .sidebar { background-color: #121212 !important; border-right: 1px solid rgba(255,255,255,0.05); }
     body.my-sidebar-show .sidebar { transform: translateX(0) !important; }
-    
     .sidebar-nav li.active > a {
-      border-right: none;
-      border-left: 4px solid var(--mizuki-pink);
+      border-right: none; border-left: 4px solid var(--mizuki-pink);
       background: linear-gradient(to right, rgba(233,126,179,0.1), transparent);
-      color: var(--mizuki-pink) !important;
-      font-weight: bold;
+      color: var(--mizuki-pink) !important; font-weight: bold;
     }
 
     /* 4. 遮罩层 */
@@ -86,28 +60,22 @@
       position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
       z-index: 100001; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center;
     }
-    #my-custom-toggle span {
-      display: block; width: 24px; height: 3px; background-color: var(--mizuki-pink); margin: 2.5px 0; border-radius: 2px;
-    }
+    #my-custom-toggle span { display: block; width: 24px; height: 3px; background-color: var(--mizuki-pink); margin: 2.5px 0; border-radius: 2px; }
 
-    /* 5. 分页按钮 */
+    /* 5. 分页 */
     .docsify-pagination-container {
-      margin-top: 50px; padding-top: 20px;
-      border-top: 1px solid rgba(128,128,128,0.1);
+      margin-top: 50px; padding-top: 20px; border-top: 1px solid rgba(128,128,128,0.1);
       display: flex !important; justify-content: space-between !important; flex-wrap: wrap; gap: 10px;
     }
     .pagination-item {
-      flex: 1; min-width: 120px; margin-top: 10px;
-      border: 1px solid rgba(233, 126, 179, 0.4) !important;
-      border-radius: 12px !important; padding: 15px !important;
-      transition: all 0.3s; display: flex; flex-direction: column;
+      flex: 1; min-width: 120px; margin-top: 10px; border: 1px solid rgba(233, 126, 179, 0.4) !important;
+      border-radius: 12px !important; padding: 15px !important; transition: all 0.3s; display: flex; flex-direction: column;
     }
     .pagination-item-prev { text-align: left; align-items: flex-start; }
     .pagination-item-next { text-align: right; align-items: flex-end; }
     .pagination-item:hover {
       background-color: var(--mizuki-pink); color: white !important;
-      border-color: var(--mizuki-pink) !important;
-      transform: translateY(-2px); box-shadow: 0 4px 12px rgba(233, 126, 179, 0.3);
+      border-color: var(--mizuki-pink) !important; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(233, 126, 179, 0.3);
     }
     .pagination-item-label { font-size: 16px; font-weight: bold; margin-top: 5px; }
     .pagination-item-title { font-size: 12px; opacity: 0.7; letter-spacing: 1px; }
@@ -115,14 +83,10 @@
     /* 6. 其他 */
     .content { padding-top: 80px !important; max-width: 900px; }
     #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 100 !important; }
-    
     .card-link {
-      display: block; margin: 15px 0; padding: 20px;
-      background: var(--codeBackgroundColor);
-      border: 1px solid rgba(233, 126, 179, 0.3);
-      border-radius: 12px;
-      text-decoration: none !important;
-      color: var(--textColor) !important;
+      display: block; margin: 15px 0; padding: 20px; background: var(--codeBackgroundColor);
+      border: 1px solid rgba(233, 126, 179, 0.3); border-radius: 12px;
+      text-decoration: none !important; color: var(--textColor) !important;
     }
     .card-desc { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 5px; font-weight: normal; }
 
@@ -133,7 +97,6 @@
       #sidebar-overlay { display: none !important; }
     }
     
-    /* Loading 动画 */
     @keyframes pulse {
       0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 126, 179, 0.7); }
       70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(233, 126, 179, 0); }
@@ -151,22 +114,27 @@
   </div>
   <div id="my-custom-toggle" onclick="toggleMySidebar()"><span></span><span></span><span></span></div>
   
-  <!-- Loading 区域：这里会随机显示瑞希的台词 -->
+  <!-- Loading 区域 -->
   <div id="app">
-    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 80%; max-width: 400px;">
+    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 85%; max-width: 400px;">
         <img src="avatar.jpg" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #E97EB3; margin-bottom: 20px; animation: pulse 2s infinite;">
-        <div id="loading-text" style="font-size: 16px; color: #E97EB3; font-weight: bold; margin-bottom: 8px;">Mizuki Bot</div>
-        <div id="loading-sub" style="font-size: 13px; color: #999;">Loading...</div>
+        <!-- 默认文字，防止 JS 还没加载时空白 -->
+        <div id="loading-text" style="font-size: 16px; color: #E97EB3; font-weight: bold; margin-bottom: 8px; line-height: 1.5;">少女祈祷中...</div>
+        <div id="loading-sub" style="font-size: 13px; color: #999;">Mizuki Bot</div>
     </div>
   </div>
 
   <script>
-    // --- 瑞希语录随机逻辑 ---
-    (function() {
-      // 瑞希的经典台词库
+    // --- 瑞希海量语录库 ---
+    // 放在这里保证优先执行
+    try {
       const quotes = [
         { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
         { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
         { jp: "「 ま、ボクは可愛ければなんでもいいけどね♪ 」", cn: "嘛，对我来说只要可爱就都行啦♪" },
         { jp: "「 25時、ナイトコードで。 」", cn: "25时，在 Nightcord 见。" },
-        { jp: "「 逃げ続けるのも、悪くないかもね 」", cn: "一直逃避下去，或许也不坏
+        { jp: "「 逃げ続けるのも、悪くないかもね 」", cn: "一直逃避下去，或许也不坏呢" },
+        { jp: "「 ボクの正体？ ……ふふ、秘密だよ 」", cn: "我的真面目？……呵呵，是秘密哦" },
+        { jp: "「 君も、こっち側に来る？ 」", cn: "你也要，来这边吗？" },
+        { jp: "「 未確定なままでいいんじゃない？ 」", cn: "保持未确定的状态，不也挺好吗？" },
+        { jp: "「
