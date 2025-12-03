@@ -16,12 +16,12 @@
       --navbar-height: 60px;
     }
 
-    /* 1. 顶部导航栏 */
+    /* 1. 顶部导航栏 (Layer 50) */
     #mizuki-navbar {
       position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
       background-color: var(--background);
       border-bottom: 1px solid rgba(128, 128, 128, 0.1);
-      z-index: 50;
+      z-index: 50; /* 导航栏层级 */
       display: flex; align-items: center;
       transition: background-color 0.3s;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -29,7 +29,7 @@
 
     /* 2. Logo 区域 */
     .nav-logo-box {
-      margin-left: 60px; /* 给我们的假按钮留位置 */
+      margin-left: 60px;
       display: flex; align-items: center; cursor: pointer; height: 100%;
     }
     .nav-logo-img {
@@ -40,45 +40,32 @@
       font-weight: 900; font-size: 18px; color: var(--mizuki-pink);
     }
 
-    /* 3. 【核心】手写一个“假”的三道杠按钮 */
-    /* Docsify 根本不知道这个按钮的存在，所以它删不掉！ */
+    /* 3. 【核心修复】侧边栏 (Sidebar) */
+    /* 必须把层级提到比导航栏(50)高，不然就被盖住了！ */
+    .sidebar {
+      z-index: 999 !important; /* 让侧边栏浮在最上面 */
+      background-color: var(--background) !important; /* 确保背景不透明 */
+      padding-top: 60px !important; /* 避开顶部的假按钮 */
+      border-right: 1px solid rgba(128, 128, 128, 0.1);
+      transition: transform 0.3s, background-color 0.3s !important;
+    }
+    
+    /* 4. 假按钮 (Layer 99999) */
     #my-custom-toggle {
-      position: fixed;
-      left: 10px;
-      top: 10px;
-      width: 44px;
-      height: 44px;
-      z-index: 99999; /* 层级拉满 */
+      position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
+      z-index: 99999; /* 按钮必须是全场最高 */
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: transparent;
-      border-radius: 8px;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      background: transparent; border-radius: 8px;
     }
-    /* 画三条粉色的线 */
     #my-custom-toggle span {
-      display: block;
-      width: 24px;
-      height: 3px;
+      display: block; width: 24px; height: 3px;
       background-color: var(--mizuki-pink);
-      margin: 2.5px 0;
-      border-radius: 2px;
-      transition: all 0.3s;
+      margin: 2.5px 0; border-radius: 2px;
     }
-    /* 按下去的时候稍微动一下，更有手感 */
-    #my-custom-toggle:active {
-      transform: scale(0.9);
-    }
-
-    /* 4. 隐藏 Docsify 原生的那个“会消失”的按钮 */
-    /* 我们不让它显示了，免得闪烁，但在代码里留着它的功能 */
-    .sidebar-toggle {
-      opacity: 0 !important;
-      pointer-events: none !important;
-      visibility: hidden !important;
-    }
+    
+    /* 隐藏原生按钮 */
+    .sidebar-toggle { display: none !important; }
 
     /* 5. 布局调整 */
     .content { padding-top: 80px !important; max-width: 900px; }
@@ -95,8 +82,6 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
     .card-desc { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 5px; font-weight: normal; }
-    
-    .sidebar { padding-top: 0; }
   </style>
 </head>
 <body>
@@ -109,8 +94,7 @@
     </div>
   </div>
 
-  <!-- 【核武器】手动创建的“假”按钮 -->
-  <!-- 点击它时，触发一段 JS 去点击那个“隐身”的真按钮 -->
+  <!-- 假按钮 -->
   <div id="my-custom-toggle" onclick="toggleSidebarProxy()">
     <span></span>
     <span></span>
@@ -120,17 +104,11 @@
   <div id="app">🏃‍♂️ 启动中...</div>
 
   <script>
-    // 代理点击函数：
-    // 当你点“假按钮”时，它会偷偷去点 Docsify 原生的那个“真按钮”
+    // 强制控制侧边栏开关
     function toggleSidebarProxy() {
-      const realToggle = document.querySelector('.sidebar-toggle');
-      if (realToggle) {
-        // 模拟点击
-        realToggle.click();
-      } else {
-        // 如果真按钮还没加载出来，直接操作 body class
-        document.body.classList.toggle('close');
-      }
+      // Docsify 移动端逻辑：body 有 'close' 类时隐藏，没有时显示
+      // 我们直接切换这个类
+      document.body.classList.toggle('close');
     }
 
     window.$docsify = {
