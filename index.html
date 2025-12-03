@@ -29,7 +29,7 @@
 
     /* 2. Logo 区域 */
     .nav-logo-box {
-      margin-left: 60px; /* 避开左侧按钮 */
+      margin-left: 60px; /* 给我们的假按钮留位置 */
       display: flex; align-items: center; cursor: pointer; height: 100%;
     }
     .nav-logo-img {
@@ -40,37 +40,46 @@
       font-weight: 900; font-size: 18px; color: var(--mizuki-pink);
     }
 
-    /* 3. 三道杠菜单 (防消失核武器版) */
-    /* 无论 body 是什么状态 (ready, close, open)，都强制显示按钮 */
-    body .sidebar-toggle {
-      position: fixed !important;
-      left: 10px !important;
-      top: 10px !important;
-      width: 44px !important;
-      height: 44px !important;
-      padding: 12px 0 0 0 !important;
-      z-index: 99999 !important; /* 层级拉满 */
-      background: transparent !important;
+    /* 3. 【核心】手写一个“假”的三道杠按钮 */
+    /* Docsify 根本不知道这个按钮的存在，所以它删不掉！ */
+    #my-custom-toggle {
+      position: fixed;
+      left: 10px;
+      top: 10px;
+      width: 44px;
+      height: 44px;
+      z-index: 99999; /* 层级拉满 */
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: transparent;
       border-radius: 8px;
-      display: block !important; /* 强制显示，禁止 hidden */
-      visibility: visible !important; /* 强制可见 */
-      opacity: 1 !important; /* 强制不透明 */
-      transform: none !important; /* 禁止被移出屏幕 */
+    }
+    /* 画三条粉色的线 */
+    #my-custom-toggle span {
+      display: block;
+      width: 24px;
+      height: 3px;
+      background-color: var(--mizuki-pink);
+      margin: 2.5px 0;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    /* 按下去的时候稍微动一下，更有手感 */
+    #my-custom-toggle:active {
+      transform: scale(0.9);
     }
 
-    /* 强制三道杠内部线条颜色 */
-    body .sidebar-toggle span {
-      background-color: var(--mizuki-pink) !important;
-      height: 3px !important; width: 24px !important;
-      margin: 4px auto !important;
+    /* 4. 隐藏 Docsify 原生的那个“会消失”的按钮 */
+    /* 我们不让它显示了，免得闪烁，但在代码里留着它的功能 */
+    .sidebar-toggle {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
     }
 
-    /* 4. 修复侧边栏遮挡问题 */
-    /* 当侧边栏打开时，不要覆盖按钮，而是让按钮保持在顶层 */
-    body.ready.close .sidebar-toggle {
-      left: 10px !important;
-    }
-    
     /* 5. 布局调整 */
     .content { padding-top: 80px !important; max-width: 900px; }
     #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 100 !important; }
@@ -92,6 +101,7 @@
 </head>
 <body>
 
+  <!-- 顶部导航 -->
   <div id="mizuki-navbar">
     <div class="nav-logo-box" onclick="location.hash='/'">
       <img src="avatar.jpg" class="nav-logo-img" onerror="this.style.display='none'">
@@ -99,9 +109,30 @@
     </div>
   </div>
 
+  <!-- 【核武器】手动创建的“假”按钮 -->
+  <!-- 点击它时，触发一段 JS 去点击那个“隐身”的真按钮 -->
+  <div id="my-custom-toggle" onclick="toggleSidebarProxy()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
   <div id="app">🏃‍♂️ 启动中...</div>
 
   <script>
+    // 代理点击函数：
+    // 当你点“假按钮”时，它会偷偷去点 Docsify 原生的那个“真按钮”
+    function toggleSidebarProxy() {
+      const realToggle = document.querySelector('.sidebar-toggle');
+      if (realToggle) {
+        // 模拟点击
+        realToggle.click();
+      } else {
+        // 如果真按钮还没加载出来，直接操作 body class
+        document.body.classList.toggle('close');
+      }
+    }
+
     window.$docsify = {
       name: '',
       loadSidebar: true,
@@ -137,19 +168,5 @@
   <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
-
-  <!-- 强制脚本：每500毫秒检查一次按钮是否活着，没了就手动加回来 -->
-  <script>
-    // 这是一个保险措施
-    setInterval(function() {
-      var toggle = document.querySelector('.sidebar-toggle');
-      if (toggle) {
-        toggle.style.display = 'block';
-        toggle.style.visibility = 'visible';
-        toggle.style.opacity = '1';
-        toggle.style.zIndex = '99999';
-      }
-    }, 500);
-  </script>
 </body>
 </html>
