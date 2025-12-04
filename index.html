@@ -4,14 +4,20 @@
   <meta charset="UTF-8">
   <title>Mizuki Bot 帮助文档</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
   
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
 
   <style>
+    /* 平滑滚动 */
     html { scroll-behavior: smooth; }
-    :root { --mizuki-pink: #E97EB3; --niigo-purple: #8A66C2; --navbar-height: 60px; }
+    
+    :root {
+      --mizuki-pink: #E97EB3;
+      --niigo-purple: #8A66C2;
+      --navbar-height: 60px;
+    }
 
     /* 1. 顶部导航栏 */
     #mizuki-navbar {
@@ -31,26 +37,31 @@
     .nav-logo-img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--mizuki-pink); margin-right: 10px; }
     .nav-logo-text { font-weight: 900; font-size: 18px; color: var(--mizuki-pink); }
 
-    /* 3. 【修复】侧边栏：增加滚动条，防止内容被切掉 */
+    /* 3. 侧边栏 (滚动修复版) */
     .sidebar {
       position: fixed !important; 
       top: 0 !important; 
       bottom: 0 !important; 
       left: 0 !important;
-      width: 280px !important; 
-      height: 100vh !important; /* 强制占满全屏高度 */
+      width: 280px !important;
+      
+      /* 关键：使用 top/bottom 而不是 height:100vh，适应手机浏览器地址栏 */
+      height: auto !important; 
+      
       z-index: 100000 !important;
-      border-right: 1px solid rgba(128, 128, 128, 0.1); 
+      border-right: 1px solid rgba(128, 128, 128, 0.1);
       padding-top: 80px !important;
       
-      /* 关键修复：允许内部滚动 */
-      overflow-y: auto !important; 
-      -webkit-overflow-scrolling: touch; /* iOS 丝滑滚动 */
-      box-sizing: border-box !important; /* 确保 padding 不会撑爆高度 */
-
-      transform: translateX(-120%); 
+      /* 关键：底部留白，防止内容被遮挡 */
+      padding-bottom: 100px !important;
+      
+      /* 关键：允许滚动 */
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch; /* iOS 惯性滚动 */
+      
+      transform: translateX(-120%);
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.1); 
+      box-shadow: 4px 0 20px rgba(0,0,0,0.1);
       background-color: #ffffff !important;
     }
     body.docsify-dark-mode .sidebar { background-color: #121212 !important; border-right: 1px solid rgba(255,255,255,0.05); }
@@ -77,7 +88,7 @@
     }
     #my-custom-toggle span { display: block; width: 24px; height: 3px; background-color: var(--mizuki-pink); margin: 2.5px 0; border-radius: 2px; }
 
-    /* 5. 分页 */
+    /* 5. 分页按钮 */
     .docsify-pagination-container {
       margin-top: 50px; padding-top: 20px; border-top: 1px solid rgba(128,128,128,0.1);
       display: flex !important; justify-content: space-between !important; flex-wrap: wrap; gap: 10px;
@@ -137,8 +148,8 @@
     </div>
   </div>
 
-   <script>
-    // --- 瑞希语录 ---
+  <script>
+    // --- 瑞希语录逻辑 ---
     try {
       const quotes = [
         { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
@@ -166,15 +177,22 @@
 
     function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
     
-    // 【修复跳转问题】主动监听点击
+    // 【核心修复：跳转与关闭逻辑】
     document.addEventListener('click', function(e) {
-      // 检查是否点击了侧边栏里的链接
+      // 检查点击的是否是侧边栏里的链接
       const link = e.target.closest('.sidebar-nav a');
+      
+      // 如果点击了链接，且侧边栏是打开的
       if (link && document.body.classList.contains('my-sidebar-show')) {
-        // 强制收起侧边栏
+        
+        // 1. 获取目标地址，如果是展开文件夹（没有 href 或 href 是空的），就不关闭
+        const href = link.getAttribute('href');
+        if (!href || href === '#') return;
+
+        // 2. 延迟 350ms 再关闭，确保视觉上先看到点击反馈，且浏览器有时间处理 URL 变更
         setTimeout(() => { 
           document.body.classList.remove('my-sidebar-show');
-        }, 100); // 稍微给一点点反应时间
+        }, 350); 
       }
     });
 
