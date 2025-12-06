@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)https://bot.hongxingos.top/#/tools -->
+<html lang="zh-CN" style="--siteFont: apple-system, BlinkMacSystemFont, Roboto, sans-serif; --defaultTheme: dark; --codeFontFamily: Roboto Mono, Monaco, courier, monospace; --bodyFontSize: 17px; --accent: #E97EB3; --toogleBackground: #091a28; --background: #ffffff; --textColor: #34495e; --codeTextColor: #525252; --codeBackgroundColor: #f8f8f8; --borderColor: rgba(0, 0, 0, 0.07); --blockQuoteColor: #858585; --highlightColor: #d22778; --sidebarSublink: #505d6b; --codeTypeColor: #091a28; --coverBackground: linear-gradient(to left bottom, hsl(118, 100%, 85%) 0%,hsl(181, 100%, 85%) 100%); --toogleImage: url(https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/icons/moon.svg); color-scheme: light;"><script>function inject () {
+  function override() {
+    // Override video element canPlayType() function
+    var videoElem = document.createElement('video');
+    var origCanPlayType = videoElem.canPlayType.bind(videoElem);
+    videoElem.__proto__.canPlayType = makeModifiedTypeChecker(origCanPlayType);
+
+    // Override media source extension isTypeSupported() function
+    var mse = window.MediaSource;
+    // Check for MSE support before use
+    if (mse === undefined) return;
+    var origIsTypeSupported = mse.isTypeSupported.bind(mse);
+    mse.isTypeSupported = makeModifiedTypeChecker(origIsTypeSupported);
+  }
+
+  // return a custom MIME type checker that can defer to the original function
+  function makeModifiedTypeChecker(origChecker) {
+    // Check if a video type is allowed
+    return function (type) {
+      if (type === undefined) return '';
+
+      if (localStorage['h265ify-log_req'] === 'true')
+        console.log('type: '+ type);
+
+      var overriddentypes = ['hevc', 'x265', 'h265', 'hvc', 'hev'];
+
+      for (var i = 0; i < overriddentypes.length; i++) {
+        if (type.indexOf(overriddentypes[i]) !== -1) return 'probably';
+      }
+
+      // Otherwise, ask the browser
+      return origChecker(type);
+    };
+  }
+    override();
+}inject();</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>🛠️ 通用工具与群管</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  
+  <link rel="stylesheet" href="./tools_files/vue.css">
+  <link rel="stylesheet" href="./tools_files/style.min.css">
+
+  <style>
+    /* --- 0. 全局基础设置 --- */
+    html { scroll-behavior: smooth; }
+    
+    :root {
+      --mizuki-pink: #E97EB3;
+      --niigo-purple: #8A66C2;
+      --navbar-height: 60px;
+      /* 定义背景变量，方便后面调用 */
+      --bg-color-light: #ffffff;
+      --bg-color-dark: #121212;
+    }
+
+    /* 隐藏 Docsify 原生按钮 (永远隐藏，因为我们有自己的) */
+    .sidebar-toggle { display: none !important; }
+	
+	    /* 修复无法滚动的问题 */
+    html, body { height: 100%; }
+    body { overflow: auto; }
+    .content { 
+        min-height: calc(100vh - 80px);
+        overflow-y: auto !important;
+    }
+    .markdown-section { min-height: 100%; }
+
+
+    /* --- 1. 顶部导航栏 (Navbar) --- */
+    #mizuki-navbar {
+      position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
+      z-index: 50; display: flex; align-items: center;
+      transition: all 0.3s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      backdrop-filter: blur(10px);
+      /* 默认背景 (白天) */
+      background-color: rgba(255,255,255,0.95);
+      border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+    }
+    /* 夜间模式顶部 */
+    body.docsify-dark-mode #mizuki-navbar {
+      background-color: rgba(18, 18, 18, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* Logo 区域 */
+    .nav-logo-box {
+      display: flex; align-items: center; cursor: pointer; height: 100%;
+      /* 默认左边距 (手机端给按钮留位置) */
+      padding-left: 60px; 
+      transition: padding-left 0.3s;
+    }
+    .nav-logo-img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--mizuki-pink); margin-right: 10px; }
+    .nav-logo-text { font-weight: 900; font-size: 18px; color: var(--mizuki-pink); }
+
+    /* --- 2. 侧边栏 (Sidebar) - 通用样式 --- */
+    .sidebar {
+      padding-top: 80px !important;
+      border-right: 1px solid rgba(128, 128, 128, 0.1);
+      box-shadow: 4px 0 20px rgba(0,0,0,0.05);
+      /* 强制背景色，防止透明 */
+      background-color: var(--bg-color-light) !important;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    /* 夜间模式侧边栏 */
+    body.docsify-dark-mode .sidebar {
+      background-color: var(--bg-color-dark) !important;
+      border-right: 1px solid rgba(255,255,255,0.05);
+    }
+    /* 选中高亮 */
+    .sidebar-nav li.active > a {
+      border-right: none; border-left: 4px solid var(--mizuki-pink);
+      background: linear-gradient(to right, rgba(233,126,179,0.1), transparent);
+      color: var(--mizuki-pink) !important; font-weight: bold;
+    }
+
+    /* --- 3. 手机端适配 (Mobile) --- */
+    /* 当屏幕宽度小于 768px 时生效 */
+    @media screen and (max-width: 768px) {
+      /* 侧边栏默认隐藏在左边 */
+      .sidebar {
+        position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
+        width: 280px !important;
+        z-index: 100000 !important; /* 最高层级 */
+        transform: translateX(-120%); /* 藏起来 */
+      }
+      /* 激活时滑出来 */
+      body.my-sidebar-show .sidebar { transform: translateX(0) !important; }
+
+      /* 显示三道杠按钮 */
+      #my-custom-toggle {
+        display: flex;
+        position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
+        z-index: 100001; /* 比侧边栏还高 */
+        cursor: pointer; flex-direction: column; justify-content: center; align-items: center;
+      }
+      #my-custom-toggle span {
+        display: block; width: 24px; height: 3px; background-color: var(--mizuki-pink); margin: 2.5px 0; border-radius: 2px;
+      }
+
+      /* 遮罩层 (仅手机端需要) */
+      #sidebar-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.3); z-index: 99999;
+        display: none; opacity: 0; transition: opacity 0.3s;
+      }
+      body.my-sidebar-show #sidebar-overlay { display: block; opacity: 1; }
+      
+      /* 内容区域 */
+      .content { padding-top: 80px !important; margin-left: 0 !important; }
+    }
+
+    /* --- 4. 电脑端适配 (Desktop) --- */
+    /* 当屏幕宽度大于 769px 时生效 */
+    @media screen and (min-width: 769px) {
+      /* 侧边栏一直显示 */
+      .sidebar {
+        position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
+        width: 300px !important;
+        z-index: 40 !important; /* 降低层级，不遮挡其他 */
+        transform: translateX(0) !important; /* 永远显示 */
+        padding-top: 80px !important;
+      }
+
+      /* 隐藏三道杠按钮 */
+      #my-custom-toggle { display: none !important; }
+
+      /* 隐藏遮罩层 */
+      #sidebar-overlay { display: none !important; }
+
+      /* Logo 往左移，因为没有按钮占位了 */
+      .nav-logo-box { padding-left: 20px !important; }
+
+      /* 内容区域向右推，留出侧边栏位置 */
+      .content { 
+        padding-top: 80px !important; 
+        margin-left: 300px !important; /* 关键！给侧边栏腾位置 */
+        max-width: 1000px !important;
+      }
+    }
+
+    /* --- 5. 通用组件样式 --- */
+    /* 分页按钮 */
+    .docsify-pagination-container {
+      margin-top: 50px; padding-top: 20px; border-top: 1px solid rgba(128,128,128,0.1);
+      display: flex !important; justify-content: space-between !important; flex-wrap: wrap; gap: 10px;
+    }
+    .pagination-item {
+      flex: 1; min-width: 120px; margin-top: 10px; border: 1px solid rgba(233, 126, 179, 0.4) !important;
+      border-radius: 12px !important; padding: 15px !important; transition: all 0.3s; display: flex; flex-direction: column;
+    }
+    .pagination-item-prev { text-align: left; align-items: flex-start; }
+    .pagination-item-next { text-align: right; align-items: flex-end; }
+    .pagination-item:hover {
+      background-color: var(--mizuki-pink); color: white !important;
+      border-color: var(--mizuki-pink) !important; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(233, 126, 179, 0.3);
+    }
+    .pagination-item-label { font-size: 16px; font-weight: bold; margin-top: 5px; }
+    .pagination-item-title { font-size: 12px; opacity: 0.7; letter-spacing: 1px; }
+
+    /* 卡片链接 */
+    .card-link {
+      display: block; margin: 15px 0; padding: 20px; background: var(--codeBackgroundColor);
+      border: 1px solid rgba(233, 126, 179, 0.3); border-radius: 12px;
+      text-decoration: none !important; color: var(--textColor) !important;
+    }
+    .card-desc { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 5px; font-weight: normal; }
+    
+    /* 切换按钮位置 */
+    #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 100 !important; }
+
+    /* Loading 动画 */
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 126, 179, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(233, 126, 179, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 126, 179, 0); }
+    }
+  </style>
+<input type="hidden" id="_o_dbjbempljhcmhlfpfacalomonjpalpko" data-inspect-config="7"><script type="text/javascript" src="chrome-extension://odphnbhiddhdpoccbialllejaajemdio/scripts/inspector.js"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style><style type="text/css">.docsify-copy-code-button,.docsify-copy-code-button>span{cursor:pointer;transition:all .25s ease}.docsify-copy-code-button{background:grey;background:var(--theme-color,grey);border:0;border-radius:0;color:#fff;font-size:1em;opacity:0;outline:0;overflow:visible;padding:.65em .8em;position:absolute;right:0;top:0;z-index:1}.docsify-copy-code-button>span{background:inherit;border-radius:3px;pointer-events:none}.docsify-copy-code-button>.error,.docsify-copy-code-button>.success{font-size:.825em;opacity:0;padding:.5em .65em;position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:-100}.docsify-copy-code-button.error>.error,.docsify-copy-code-button.success>.success{opacity:1;right:100%;transform:translate(-25%,-50%)}.docsify-copy-code-button:focus,pre:hover .docsify-copy-code-button{opacity:1}.docsify-copy-code-button>[aria-live]{height:1px;left:-10000px;overflow:hidden;position:absolute;top:auto;width:1px}</style><style type="text/css">.docsify-pagination-container{display:flex;flex-wrap:wrap;justify-content:space-between;overflow:hidden;margin:5em 0 1em;border-top:1px solid rgba(0,0,0,.07)}.pagination-item{margin-top:2.5em}.pagination-item a,.pagination-item a:hover{text-decoration:none}.pagination-item a{color:currentColor}.pagination-item a:hover .pagination-item-title{text-decoration:underline}.pagination-item:not(:last-child) a .pagination-item-label,.pagination-item:not(:last-child) a .pagination-item-subtitle,.pagination-item:not(:last-child) a .pagination-item-title{opacity:.3;transition:all .2s}.pagination-item:last-child .pagination-item-label,.pagination-item:not(:last-child) a:hover .pagination-item-label{opacity:.6}.pagination-item:not(:last-child) a:hover .pagination-item-title{opacity:1}.pagination-item-label{font-size:.8em}.pagination-item-label>*{line-height:1;vertical-align:middle}.pagination-item-label svg{height:.8em;width:auto;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1px}.pagination-item--next{margin-left:auto;text-align:right}.pagination-item--next svg{margin-left:.5em}.pagination-item--previous svg{margin-right:.5em}.pagination-item-title{font-size:1.6em}.pagination-item-subtitle{text-transform:uppercase;opacity:.3}</style><style>
+.sidebar {
+  padding-top: 0;
+}
+
+.search {
+  margin-bottom: 20px;
+  padding: 6px;
+  border-bottom: 1px solid #eee;
+}
+
+.search .input-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.search .results-panel {
+  display: none;
+}
+
+.search .results-panel.show {
+  display: block;
+}
+
+.search input {
+  outline: none;
+  border: none;
+  width: 100%;
+  padding: 0.6em 7px;
+  font-size: inherit;
+  border: 1px solid transparent;
+}
+
+.search input:focus {
+  box-shadow: 0 0 5px var(--theme-color, #42b983);
+  border: 1px solid var(--theme-color, #42b983);
+}
+
+.search input::-webkit-search-decoration,
+.search input::-webkit-search-cancel-button,
+.search input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.search input::-ms-clear {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+.search .clear-button {
+  cursor: pointer;
+  width: 36px;
+  text-align: right;
+  display: none;
+}
+
+.search .clear-button.show {
+  display: block;
+}
+
+.search .clear-button svg {
+  transform: scale(.5);
+}
+
+.search h2 {
+  font-size: 17px;
+  margin: 10px 0;
+}
+
+.search a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.search .matching-post {
+  border-bottom: 1px solid #eee;
+}
+
+.search .matching-post:last-child {
+  border-bottom: 0;
+}
+
+.search p {
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.search p.empty {
+  text-align: center;
+}
+
+.app-name.hide, .sidebar-nav.hide {
+  display: none;
+}</style></head>
+<body data-page="tools.md" class="ready sticky">
+  <!-- 遮罩层 (手机端点击关闭侧边栏) -->
+  <div id="sidebar-overlay" onclick="toggleMySidebar()"></div>
+
+  <!-- 顶部导航 -->
+  <div id="mizuki-navbar">
+    <div class="nav-logo-box" onclick="location.hash=&#39;/&#39;">
+      <img src="./tools_files/avatar.jpg" class="nav-logo-img" onerror="this.style.display=&#39;none&#39;">
+      <span class="nav-logo-text">Mizuki Bot</span>
+    </div>
+  </div>
+
+  <!-- 假按钮 (仅手机端显示) -->
+  <div id="my-custom-toggle" onclick="toggleMySidebar()"><span></span><span></span><span></span></div>
+  
+  <!-- Loading 区域 -->
+  <a href="https://github.com/HX-Wrdzgzs/Mizuki-Bot" target="_blank" class="github-corner" aria-label="View source on Github"><svg viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><main><button class="sidebar-toggle" aria-label="Menu"><div class="sidebar-toggle-button"><span></span><span></span><span></span></div></button><aside class="sidebar"><div class="sidebar-nav"><ul><li><p><a href="home.html" title="🏠 首页">🏠 首页</a></p></li><li><p><strong>功能文档</strong></p><ul><li><a href="PJSK.html" title="🎵 PJSK 相关功能">🎵 PJSK 相关功能</a></li><li><a href="maimai.html" title="🎰 舞萌 DX 专项">🎰 舞萌 DX 专项</a></li><li><a href="meme.html" title="🎨 PJSK 表情制作">🎨 PJSK 表情制作</a></li><li class="active"><a href="tools.html" title="🛠️ 通用工具与群管">🛠️ 通用工具与群管</a><ul class="app-sub-sidebar"><li><a class="section-link" href="tools.html?id=群管与辅助" title="群管与辅助">群管与辅助</a></li><li><a class="section-link" href="tools.html?id=娱乐功能" title="娱乐功能">娱乐功能</a></li></ul></li></ul></li><li><p><strong>其他</strong></p><ul><li><a href="contribution.html" title="🏆 贡献与鸣谢">🏆 贡献与鸣谢</a></li></ul></li></ul><div style="margin-top: 20px; border-top: 1px solid var(--borderColor);"></div>
+<div class="github-link-bottom">
+  <a href="https://github.com/HX-Wrdzgzs/Mizuki-Bot" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;" title="GitHub 仓库">
+    <svg height="24" viewBox="0 0 16 16" width="24" style="fill: var(--textColor);"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+    <span style="font-weight: bold; color:#3ea4ed;">GitHub 仓库</span>
+  </a>
+</div></div></aside><section class="content"><article class="markdown-section" id="main"><div id="docsify-darklight-theme"><p>.</p></div><h1 id="🛠️-通用工具与群管"><a href="tools.html?id=馃洜锔?閫氱敤宸ュ叿涓庣兢绠" data-id="🛠️-通用工具与群管" class="anchor"><span>🛠️ 通用工具与群管</span></a></h1><p>Mizuki Bot 的实用功能合集。</p><h2 id="群管与辅助"><a href="tools.html?id=群管与辅助" data-id="群管与辅助" class="anchor"><span>群管与辅助</span></a></h2><ul><li>  <strong>B站解析</strong>: 直接发送 Bilibili 链接，自动生成预览。</li><li>  <strong>自动点赞</strong>: 发送 <code>订阅赞</code>，每天中午12点 Bot 自动点赞。</li><li>  <strong>Steam状态</strong>: <code>steam状态</code>，播报群友 Steam 游戏状态。</li><li>  <strong>运行状态</strong>: <code>status</code>，查看 Bot 服务器状态图。</li><li>  <strong>发言统计</strong>: <code>发言统计</code>，查看今日龙王。</li></ul><h2 id="娱乐功能"><a href="tools.html?id=娱乐功能" data-id="娱乐功能" class="anchor"><span>娱乐功能</span></a></h2><ul><li>  <strong>点歌</strong>: <code>点歌 [歌名]</code> (网易云源)。</li><li>  <strong>词云</strong>: <code>今日词云</code> / <code>我的今日词云</code>。</li><li>  <strong>喜报/悲报</strong>: <code>喜报 [内容]</code> 生成红底喜报图片。</li><li>  <strong>选择困难</strong>: <code>选 [A] 选 [B]</code>，Bot 帮你挑一个。</li><li>  <strong>BA标题</strong>: <code>batitle [左] [右]</code>，生成蔚蓝档案 Logo。</li></ul><div class="my-custom-pagination">
+  
+      <!-- 上一页 -->
+      <div class="pagination-item pagination-item--next">
+        <a href="meme.html" style="text-decoration: none; color: inherit; width: 100%; display: flex; flex-direction: column; align-items: flex-end;">
+          <div class="pagination-item-label" style="font-size: 16px; font-weight: bold; opacity: 0.6;text-align: left;">
+            <span>← 上一章</span>
+          </div>
+          <div class="pagination-item-title" style="font-size: 18px; margin-top: 5px; text-align: left;">🎨 <b>PJSK 表情制作</b></div>
+        </a>
+      </div>
+
+      <!-- 下一页 -->
+      <div class="pagination-item pagination-item--next">
+        <a href="contribution.html" style="text-decoration: none; color: inherit; width: 100%; display: flex; flex-direction: column; align-items: flex-end;">
+          <div class="pagination-item-label" style="font-size: 16px; font-weight: bold; opacity: 0.6;">
+            <span>下一章 →</span>
+          </div>
+          <div class="pagination-item-title" style="font-size: 18px; margin-top: 5px;">🏆 <b>贡献者与鸣谢</b></div>
+        </a>
+      </div>
+
+    </div></article></section></main>
+
+
+  <script>
+    // 瑞希语录
+    try {
+      const quotes = [
+        { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
+        { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
+        { jp: "「 ま、ボクは可愛ければなんでもいいけどね♪ 」", cn: "嘛，对我来说只要可爱就都行啦♪" },
+        { jp: "「 25時、ナイトコードで。 」", cn: "25时，在 Nightcord 见。" },
+        { jp: "「 逃げ続けるのも、悪くないかもね 」", cn: "一直逃避下去，或许也不坏呢" },
+        { jp: "「 ボクの正体？ ……ふふ、秘密だよ 」", cn: "我的真面目？……呵呵，是秘密哦" },
+        { jp: "「 君も、こっち側に来る？ 」", cn: "你也要，来这边吗？" },
+        { jp: "「 未確定なままでいいんじゃない？ 」", cn: "保持未确定的状态，不也挺好吗？" },
+        { jp: "「 ニーゴのみんなは、特別だから 」", cn: "因为 25 时的大家，是特别的" },
+        { jp: "「 かわいいは正義！だよね？ 」", cn: "可爱即正义！对吧？" },
+        { jp: "「 永遠なんてない、だからこそ…… 」", cn: "永远什么的并不存在，正因为如此……" }
+      ];
+      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      const lt = document.getElementById('loading-text');
+      const ls = document.getElementById('loading-sub');
+      if (lt) lt.innerHTML = randomQuote.jp;
+      if (ls) ls.innerHTML = randomQuote.cn;
+    } catch(e) { console.log('Quote Error'); }
+
+    // 侧边栏控制逻辑
+    function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
+    
+    // 监听 URL 变化自动关闭侧边栏
+    window.addEventListener('hashchange', function() {
+      if (document.body.classList.contains('my-sidebar-show')) {
+        document.body.classList.remove('my-sidebar-show');
+      }
+    });
+
+    window.addEventListener('hashchange', function() {
+      if (document.body.classList.contains('my-sidebar-show')) {
+        document.body.classList.remove('my-sidebar-show');
+      }
+    });
+
+    window.$docsify = {
+      // [修复批注] 强制添加插件，确保搜索框有文字
+      plugins: [
+        function(hook) {
+          hook.doneEach(function() {
+            // 延时 0.1 秒强制写入 placeholder
+            setTimeout(function() {
+              var input = document.querySelector('.search input');
+              if (input) {
+                input.setAttribute('placeholder', '🔍 搜指令...');
+              }
+            }, 100);
+          });
+        }
+      ],
+      repo: 'https://github.com/HX-Wrdzgzs/Mizuki-Bot',
+      name: '',
+      loadSidebar: true,
+      subMaxLevel: 3,
+      auto2top: true,
+      search: { placeholder: '🔍 搜指令...', noData: '找不到哦~', depth: 6 },
+      pagination: { previousText: '← 上一章', nextText: '下一章 →', crossChapter: true },
+      darklightTheme: {
+        defaultTheme : 'light',
+        siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
+        dark: { accent: '#E97EB3', toogleBackground : '#ffffff', background: '#121212', textColor: '#f0f0f0', codeBackgroundColor: '#202020' },
+        light: { accent: '#E97EB3', toogleBackground : '#091a28', background: '#ffffff', textColor: '#34495e', codeBackgroundColor: '#f8f8f8' }
+      }
+    }
+  </script>
+  <script src="./index_files/docsify.min.js.下载"></script>
+  <script src="./index_files/search.min.js.下载"></script>
+  <script src="./index_files/index.min.js.下载"></script>
+  <script src="./index_files/zoom-image.min.js.下载"></script>
+  <script src="./index_files/docsify-copy-code.min.js.下载"></script>
+  <script src="./index_files/docsify-pagination.min.js.下载"></script>
+  <script defer src="./index_files/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;5c48ae50cfba44a3badcc7cb116ae46b&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+  <div class="progress" style="opacity: 0; width: 0%;"></div>
+</body>
+</html>
