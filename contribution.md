@@ -49,7 +49,7 @@
 
   <!-- HX-Wrdzgzs -->
   <div class="contributor-card">
-    <img src="HX-Wrdzgzs.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
+    <img src="Picture/HX-Wrdzgzs.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
     <div class="contributor-name">HX-Wrdzgzs</div>
     <div class="contributor-role">核心开发者<br>维护与文档</div>
   </div>
@@ -57,28 +57,28 @@
   <!-- Te:River (已修正) -->
   <div class="contributor-card">
     <!-- 注意：图片文件名也改成了 TeRiver.jpg -->
-    <img src="TeRiver.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
+    <img src="Picture/TeRiver.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
     <div class="contributor-name">Te:River</div>
     <div class="contributor-role">技术支持<br>服务保障</div>
   </div>
 
   <!-- Sirius -->
   <div class="contributor-card">
-    <img src="Sirius.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
+    <img src="Picture/Sirius.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
     <div class="contributor-name">Sirius</div>
     <div class="contributor-role">硬件支持<br>底层架构</div>
   </div>
 
   <!-- ecomter -->
   <div class="contributor-card">
-    <img src="ecomter.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
+    <img src="Picture/ecomter.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
     <div class="contributor-name">ecomter</div>
     <div class="contributor-role">硬件支持<br>底层架构</div>
   </div>
 
   <!-- 公良寻竹 -->
   <div class="contributor-card">
-    <img src="Gongliang.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
+    <img src="Picture/Gongliang.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
     <div class="contributor-name">公良寻竹</div>
     <div class="contributor-role">美术设计<br>初代头像绘制</div>
   </div>
