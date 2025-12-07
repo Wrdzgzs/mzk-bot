@@ -260,7 +260,7 @@ function inject () {
   <!-- 顶部导航 -->
   <div id="mizuki-navbar">
     <div class="nav-logo-box" onclick="location.hash=&#39;/&#39;">
-      <img src="./contribution_files/avatar.jpg" class="nav-logo-img" onerror="this.style.display=&#39;none&#39;">
+      <img src="Picture/avatar.jpg" class="nav-logo-img" onerror="this.style.display=&#39;none&#39;">
       <span class="nav-logo-text">Mizuki Bot</span>
     </div>
   </div>
@@ -356,35 +356,35 @@ function inject () {
         <div class="contributor-container">
           <!-- HX-Wrdzgzs -->
           <div class="contributor-card">
-            <img src="./contribution_files/HX-Wrdzgzs.jpg" class="contributor-avatar medium-zoom-image" onerror="this.src=&#39;avatar.jpg&#39;">
+            <img src="Picture/HX-Wrdzgzs.jpg" class="contributor-avatar medium-zoom-image" onerror="this.src=&#39;avatar.jpg&#39;">
             <div class="contributor-name">HX-Wrdzgzs</div>
             <div class="contributor-role">核心开发者<br>维护与文档</div>
           </div>
 
           <!-- Te:River -->
           <div class="contributor-card">
-            <img src="./contribution_files/TeRiver.jpg" class="contributor-avatar medium-zoom-image" onerror="this.src=&#39;avatar.jpg&#39;">
+            <img src="Picture/TeRiver.jpg" class="contributor-avatar medium-zoom-image" onerror="this.src=&#39;avatar.jpg&#39;">
             <div class="contributor-name">Te:River</div>
             <div class="contributor-role">技术支持<br>服务保障</div>
           </div>
 
           <!-- Sirius -->
           <div class="contributor-card">
-            <img src="./contribution_files/Sirius.jpg" class="contributor-avatar medium-zoom-image" onerror="this.src=&#39;avatar.jpg&#39;">
+            <img src="Picture/Sirius.jpg" class="contributor-avatar medium-zoom-image" onerror="this.src=&#39;avatar.jpg&#39;">
             <div class="contributor-name">Sirius</div>
             <div class="contributor-role">硬件支持<br>底层架构</div>
           </div>
 
           <!-- ecomter -->
           <div class="contributor-card">
-            <img src="./contribution_files/ecomter.jpg" class="contributor-avatar medium-zoom-image" onerror="this.src=&#39;avatar.jpg&#39;">
+            <img src="Picture/ecomter.jpg" class="contributor-avatar medium-zoom-image" onerror="this.src=&#39;avatar.jpg&#39;">
             <div class="contributor-name">ecomter</div>
             <div class="contributor-role">硬件支持<br>底层架构</div>
           </div>
 
           <!-- 公良寻竹 -->
           <div class="contributor-card">
-            <img src="./contribution_files/Gongliang.jpg" class="contributor-avatar medium-zoom-image" onerror="this.src=&#39;avatar.jpg&#39;">
+            <img src="Picture/Gongliang.jpg" class="contributor-avatar medium-zoom-image" onerror="this.src=&#39;avatar.jpg&#39;">
             <div class="contributor-name">公良寻竹</div>
             <div class="contributor-role">美术设计<br>初代头像绘制</div>
           </div>
@@ -432,19 +432,6 @@ function inject () {
   </main>
 
   <script>
-    try {
-      const quotes = [
-        { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
-        { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
-        { jp: "「 ま、ボクは可愛ければなんでもいいけどね♪ 」", cn: "嘛，对我来说只要可爱就都行啦♪" },
-        { jp: "「 25時、ナイトコードで。 」", cn: "25时，在 Nightcord 见。" }
-      ];
-      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-      // ... 语录代码
-    } catch(e) { console.log('Quote Error'); }
-
-    function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
-    
     window.addEventListener('hashchange', function() {
       if (document.body.classList.contains('my-sidebar-show')) {
         document.body.classList.remove('my-sidebar-show');

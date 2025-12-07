@@ -258,7 +258,7 @@ function inject () {
   <!-- 顶部导航 -->
   <div id="mizuki-navbar">
     <div class="nav-logo-box" onclick="location.hash=&#39;/&#39;">
-      <img src="./index_files/avatar.jpg" class="nav-logo-img" onerror="this.style.display=&#39;none&#39;">
+      <img src="Picture/avatar.jpg" class="nav-logo-img" onerror="this.style.display=&#39;none&#39;">
       <span class="nav-logo-text">Mizuki Bot</span>
     </div>
   </div>
@@ -303,7 +303,7 @@ function inject () {
       <article class="markdown-section" id="main">
         <div id="docsify-darklight-theme"><p>.</p></div>
         <div style="text-align: center; margin-top: 20px;">
-          <img src="./index_files/avatar.jpg" width="120" height="120" style="border-radius: 50%; box-shadow: 0 0 20px rgba(233, 126, 179, 0.5); border: 3px solid #E97EB3; margin-bottom: 20px;" class="medium-zoom-image">
+          <img src="Picture/avatar.jpg" width="120" height="119" style="border-radius: 50%; box-shadow: 0 0 20px rgba(233, 126, 179, 0.5); border: 3px solid #E97EB3; margin-bottom: 20px;" class="medium-zoom-image">
           <h1 style="background: linear-gradient(135deg, #E97EB3 0%, #8A66C2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0;">Mizuki Bot 帮助文档</h1>
           <p style="color: #888; font-style: italic; margin-bottom: 20px; font-weight: bold;">「 ボクは……ボクでいたいだけ 」</p>
           <div>
@@ -364,19 +364,6 @@ function inject () {
   </main>
 
   <script>
-    try {
-      const quotes = [
-        { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
-        { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
-        { jp: "「 ま、ボクは可愛ければなんでもいいけどね♪ 」", cn: "嘛，对我来说只要可爱就都行啦♪" },
-        { jp: "「 25時、ナイトコードで。 」", cn: "25时，在 Nightcord 见。" }
-      ];
-      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-      // ... 语录代码
-    } catch(e) { console.log('Quote Error'); }
-
-    function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
-    
     window.addEventListener('hashchange', function() {
       if (document.body.classList.contains('my-sidebar-show')) {
         document.body.classList.remove('my-sidebar-show');

@@ -260,7 +260,7 @@ function inject () {
   <!-- 顶部导航 -->
   <div id="mizuki-navbar">
     <div class="nav-logo-box" onclick="location.hash=&#39;/&#39;">
-      <img src="./tools_files/avatar.jpg" class="nav-logo-img" onerror="this.style.display=&#39;none&#39;">
+      <img src="Picture/avatar.jpg" class="nav-logo-img" onerror="this.style.display=&#39;none&#39;">
       <span class="nav-logo-text">Mizuki Bot</span>
     </div>
   </div>
@@ -369,25 +369,6 @@ function inject () {
   </main>
 
   <script>
-    try {
-      const quotes = [
-        { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
-        { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
-        { jp: "「 ま、ボクは可愛ければなんでもいいけどね♪ 」", cn: "嘛，对我来说只要可爱就都行啦♪" },
-        { jp: "「 25時、ナイトコードで。 」", cn: "25时，在 Nightcord 见。" }
-      ];
-      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-      // ... 语录代码
-    } catch(e) { console.log('Quote Error'); }
-
-    function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
-    
-    window.addEventListener('hashchange', function() {
-      if (document.body.classList.contains('my-sidebar-show')) {
-        document.body.classList.remove('my-sidebar-show');
-      }
-    });
-
     window.$docsify = {
       plugins: [
         function(hook) {
