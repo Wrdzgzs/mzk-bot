@@ -119,6 +119,8 @@
   </style>
 </head>
 
+<body>
+
   <!-- ✨ 1. 全屏 Loading (2秒) ✨ -->
   <div id="loading-mask">
     <img id="loading-avatar" src="Picture/avatar.jpg" alt="Mizuki">
@@ -135,7 +137,48 @@
   <!-- Docsify 挂载点 -->
   <div id="app"></div>
 
+  <script>
+    // --- 瑞希语录 (保持不变) ---
+    const quotes = [
+      { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
+      { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
+      { jp: "「 ま、ボクは可愛ければなんでもいいけどね♪ 」", cn: "嘛，对我来说只要可爱就都行啦♪" },
+      { jp: "「 25時、ナイトコードで。 」", cn: "25时，在 Nightcord 见。" },
+      { jp: "「 逃げ続けるのも、悪くないかもね 」", cn: "一直逃避下去，或许也不坏呢" },
+      { jp: "「 ボクの正体？ ……ふふ、秘密だよ 」", cn: "我的真面目？……呵呵，是秘密哦" },
+      { jp: "「 君も、こっち側に来る？ 」", cn: "你也要，来这边吗？" },
+      { jp: "「 未確定なままでいいんじゃない？ 」", cn: "保持未确定的状态，不也挺好吗？" },
+      { jp: "「 ニーゴのみんなは、特別だから 」", cn: "因为 25 时的大家，是特别的" },
+      { jp: "「 かわいいは正義！だよね？ 」", cn: "可爱即正义！对吧？" },
+      { jp: "「 ほらほら、早くしないと置いてっちゃうよ〜 」", cn: "看吧看吧，不快点的话就要丢下你咯〜" },
+      { jp: "「 絵名、また自撮り？ふふっ 」", cn: "绘名，又在自拍？呵呵" },
+      { jp: "「 永遠なんてない、だからこそ…… 」", cn: "永远什么的并不存在，正因为如此……" },
+      { jp: "「 屋上って、風が気持ちいいよね 」", cn: "天台的风，真的很舒服呢" },
+      { jp: "「 ボクのこと、知りたい？ 」", cn: "想知道，关于我的事吗？" }
+    ];
 
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    const lt = document.getElementById('loading-text');
+    const ls = document.getElementById('loading-sub');
+    if (lt) lt.innerHTML = randomQuote.jp;
+    if (ls) ls.innerHTML = randomQuote.cn;
+
+    // --- ⏳ Loading 强制显示 2秒 (已修改) ---
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        const mask = document.getElementById('loading-mask');
+        if (mask) {
+          mask.style.opacity = '0';
+          setTimeout(() => mask.remove(), 500); 
+        }
+      }, 2000); // 2000毫秒 = 2秒
+    });
+
+    window.$docsify = {
+      // 这里的 name 设置侧边栏顶部的名字（不带蝴蝶结）
+      name: `
+        <div class="sidebar-logo-container">
+          <img src="Picture/avatar.jpg" class="sidebar-logo">
           <span class="sidebar-title-text">Mizuki Bot</span>
         </div>
       `,
