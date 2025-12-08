@@ -2,10 +2,10 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>Mizuki Bot 文档</title>
+  <title>Mizuki Bot</title> <!-- 浏览器标签页默认标题 -->
   <link rel="icon" href="Picture/avatar.jpg">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
   
   <!-- 1. 引入样式 -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css" title="docsify-darklight-theme" type="text/css" />
@@ -16,48 +16,87 @@
       --docsify_darklight_theme_color: #E97EB3;
     }
 
-    /* 1. 侧边栏 Logo 和 大标题样式 (让它不再空荡荡) */
+    /* =========================================
+       1. 新增：顶部固定导航栏 (Top Header)
+       ========================================= */
+    .app-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50px; /* 顶栏高度 */
+      background-color: rgba(255, 255, 255, 0.95); /* 半透明白底 */
+      backdrop-filter: blur(5px); /* 毛玻璃效果 */
+      box-shadow: 0 1px 6px rgba(0,0,0,0.05); /* 淡淡的阴影 */
+      z-index: 999; /* 保证在内容之上 */
+      display: flex;
+      align-items: center;
+      justify-content: center; /* 标题居中 */
+      transition: background-color 0.3s;
+    }
+
+    /* 顶栏标题文字 */
+    .app-header-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #333;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* 夜间模式适配 */
+    body.dark .app-header {
+      background-color: rgba(18, 18, 18, 0.95);
+      border-bottom: 1px solid #333;
+    }
+    body.dark .app-header-title {
+      color: #f0f0f0;
+    }
+
+    /* 修正：为了不被顶栏挡住内容，给主体加一个上边距 */
+    main {
+      margin-top: 50px !important;
+    }
+
+    /* =========================================
+       2. 按钮位置微调 (整合进顶栏)
+       ========================================= */
+    /* 侧边栏开关 (三道杠) - 固定在左上角 */
+    .sidebar-toggle {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 50px; /* 宽度和顶栏高度一致，方便点击 */
+      height: 50px;
+      padding: 16px !important; /* 调整内部间距使其垂直居中 */
+      background: transparent !important;
+      z-index: 1000 !important; /* 比顶栏高一层 */
+    }
+    
+    /* 侧边栏样式优化 */
     .sidebar-logo-container {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 30px;
       margin-bottom: 10px;
     }
     .sidebar-logo {
-      width: 80px;
-      height: 80px;
+      width: 90px; height: 90px;
       border-radius: 50%;
-      border: 3px solid #E97EB3;
-      box-shadow: 0 0 10px rgba(233, 126, 179, 0.4);
-      transition: transform 0.5s;
+      border: 3px solid #E97EB3; /* 简单的粉圈，不加花哨特效 */
+      transition: transform 0.3s;
     }
-    .sidebar-logo:hover { transform: rotate(15deg); }
+    .sidebar-logo:hover { transform: scale(1.05); }
     
     .sidebar-title-text {
       display: block;
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       font-weight: bold;
       color: #E97EB3;
       margin-top: 10px;
-      font-family: 'Comic Sans MS', '微软雅黑', sans-serif;
     }
 
-    /* 2. 把【三道杠】按钮钉死在左上角 */
-    .sidebar-toggle {
-      position: fixed !important;
-      top: 10px !important;
-      left: 10px !important;
-      bottom: auto !important;
-      background: rgba(255,255,255,0.8) !important; /* 加点背景防看不清 */
-      border-radius: 8px;
-      padding: 8px !important;
-      z-index: 99999;
-    }
-    /* 夜间模式适配三道杠背景 */
-    body.dark .sidebar-toggle {
-      background: rgba(0,0,0,0.5) !important;
-    }
-
-    /* 3. Loading 遮罩层 (独立全屏) */
+    /* =========================================
+       3. Loading 遮罩层 (全屏)
+       ========================================= */
     #loading-mask {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background-color: #fff;
@@ -65,87 +104,52 @@
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       transition: opacity 0.5s ease;
     }
-    body.dark #loading-mask { background-color: #121212; } /* 夜间模式Loading背景 */
+    body.dark #loading-mask { background-color: #121212; }
 
     #loading-avatar {
-      width: 120px; height: 120px; border-radius: 50%;
-      box-shadow: 0 0 30px rgba(233, 126, 179, 0.6);
-      margin-bottom: 30px;
+      width: 100px; height: 100px; border-radius: 50%;
+      box-shadow: 0 0 20px rgba(233, 126, 179, 0.4);
+      margin-bottom: 20px;
       animation: breathe 2s infinite ease-in-out;
     }
-    #loading-text { font-size: 1.4rem; font-weight: bold; color: #E97EB3; margin-bottom: 15px; text-align: center; padding: 0 20px;}
-    #loading-sub { font-size: 1rem; color: #888; font-style: italic; text-align: center; padding: 0 20px;}
+    #loading-text { font-size: 1.2rem; font-weight: bold; color: #E97EB3; margin-bottom: 10px; text-align: center; padding: 0 20px;}
+    #loading-sub { font-size: 0.9rem; color: #888; font-style: italic; text-align: center; padding: 0 20px;}
 
-    @keyframes breathe {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-    }
+    @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
   </style>
 </head>
 
-<body>
-
-  <!-- ✨ 全屏 Loading 遮罩 ✨ -->
+  <!-- ✨ 1. 全屏 Loading (2秒) ✨ -->
   <div id="loading-mask">
     <img id="loading-avatar" src="Picture/avatar.jpg" alt="Mizuki">
     <div id="loading-text">Loading...</div>
     <div id="loading-sub">Wait a moment...</div>
   </div>
 
+  <!-- ✨ 2. 顶部固定导航栏 (Top Header) ✨ -->
+  <nav class="app-header">
+    <!-- 中间的标题 -->
+    <span class="app-header-title">Mizuki Bot 帮助文档</span>
+  </nav>
+
+  <!-- Docsify 挂载点 -->
   <div id="app"></div>
 
-  <script>
-    // --- 🎀 瑞希语录 (逻辑不变) ---
-    const quotes = [
-      { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
-      { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
-      { jp: "「 ま、ボクは可愛ければなんでもいいけどね♪ 」", cn: "嘛，对我来说只要可爱就都行啦♪" },
-      { jp: "「 25時、ナイトコードで。 」", cn: "25时，在 Nightcord 见。" },
-      { jp: "「 逃げ続けるのも、悪くないかもね 」", cn: "一直逃避下去，或许也不坏呢" },
-      { jp: "「 ボクの正体？ ……ふふ、秘密だよ 」", cn: "我的真面目？……呵呵，是秘密哦" },
-      { jp: "「 君も、こっち側に来る？ 」", cn: "你也要，来这边吗？" },
-      { jp: "「 未確定なままでいいんじゃない？ 」", cn: "保持未确定的状态，不也挺好吗？" },
-      { jp: "「 ニーゴのみんなは、特別だから 」", cn: "因为 25 时的大家，是特别的" },
-      { jp: "「 かわいいは正義！だよね？ 」", cn: "可爱即正义！对吧？" },
-      { jp: "「 ほらほら、早くしないと置いてっちゃうよ〜 」", cn: "看吧看吧，不快点的话就要丢下你咯〜" },
-      { jp: "「 絵名、また自撮り？ふふっ 」", cn: "绘名，又在自拍？呵呵" },
-      { jp: "「 永遠なんてない、だからこそ…… 」", cn: "永远什么的并不存在，正因为如此……" },
-      { jp: "「 屋上って、風が気持ちいいよね 」", cn: "天台的风，真的很舒服呢" },
-      { jp: "「 ボクのこと、知りたい？ 」", cn: "想知道，关于我的事吗？" }
-    ];
 
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    const lt = document.getElementById('loading-text');
-    const ls = document.getElementById('loading-sub');
-    if (lt) lt.innerHTML = randomQuote.jp;
-    if (ls) ls.innerHTML = randomQuote.cn;
-
-    // --- ⏳ Loading 强制显示 3.5秒 ---
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        const mask = document.getElementById('loading-mask');
-        if (mask) {
-          mask.style.opacity = '0';
-          setTimeout(() => mask.remove(), 500); 
-        }
-      }, 3500); // 3500毫秒 = 3.5秒
-    });
-
-    window.$docsify = {
-      // 👇👇👇【这里就是大标题头】👇👇👇
-      // 我用 HTML 直接把【头像】和【名字】塞进去了
-      name: `
-        <div class="sidebar-logo-container">
-          <img src="Picture/avatar.jpg" class="sidebar-logo">
-          <span class="sidebar-title-text"> Mizuki Bot</span>
+          <span class="sidebar-title-text">Mizuki Bot</span>
         </div>
       `,
       
-      repo: '', // 右上角已清空
+      repo: '', 
+      
+      // 浏览器标签栏标题逻辑：
+      // Docsify 默认会把这里设置的 name 拼在前面，但我们已经在 html head 里设置了 Title
+      // 如果要让它显示 "Mizuki Bot - 首页"，需要配合 _sidebar.md 里的名字
       
       loadSidebar: true,
       subMaxLevel: 3,
       auto2top: true,
+      
       search: { placeholder: '🔍 搜指令...', noData: '找不到哦~', depth: 6 },
       
       pagination: {
@@ -161,7 +165,7 @@
         light: { accent: '#E97EB3', toogleBackground : '#091a28', background: '#ffffff', textColor: '#34495e', codeBackgroundColor: '#f8f8f8' }
       },
 
-      // 手机端点击侧边栏自动收起插件
+      // 手机端点击跳转修复
       plugins: [
         function(hook, vm) {
           hook.doneEach(function() {
