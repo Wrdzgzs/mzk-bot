@@ -17,7 +17,7 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
 
   <!-- 1. HX-Wrdzgzs -->
   <div style="background: #fff; border-radius: 10px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); flex-grow: 1;">
-    <img src="Picture/avatar.jpg" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #E97EB3;">
+    <img src="Picture/HX-Wrdzgzs.jpg" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #E97EB3;">
     <h4 style="margin: 8px 0 4px; font-size: 0.95rem;">HX-Wrdzgzs</h4>
     <span style="font-size: 11px; color: #E97EB3; font-weight: bold; display:block;">核心开发者</span>
     <p style="font-size: 11px; color: #666; margin: 4px 0 0; line-height: 1.4;">UI Design<br>维护与文档</p>
