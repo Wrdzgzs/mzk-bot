@@ -60,7 +60,7 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
     <details style="font-size: 11px; color: #666; cursor: pointer;">
       <summary style="outline: none; color: #999;">点击查看介绍</summary>
       <p style="margin: 5px 0 0; line-height: 1.4; padding: 5px; background: #fafafa; border-radius: 5px;">
-        协助维护底层设施，为项目运行提供必要的资源支持。
+        协助维护底层设施，曾为项目运行提供必要的资源支持。
       </p>
     </details>
   </div>
@@ -74,7 +74,7 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
     <details style="font-size: 11px; color: #666; cursor: pointer;">
       <summary style="outline: none; color: #999;">点击查看介绍</summary>
       <p style="margin: 5px 0 0; line-height: 1.4; padding: 5px; background: #fafafa; border-radius: 5px;">
-        Mizuki Bot 专属 Logo 设计者，绘制了现役精美头像与立绘。
+        Mizuki Bot 专属 Logo 设计者，绘制了现役精美头像。
       </p>
     </details>
   </div>
