@@ -1,16 +1,16 @@
 <!-- 这是一个纯 HTML 的主页结构，Docsify 会完美渲染它 -->
-<div style="text-align: center; margin-top: 40px;">
+<div style="text-align: center; margin-top: 20px;">
   
-  <!-- 头像：请确保 Picture 文件夹里有 avatar.jpg -->
-  <img src="Picture/avatar.jpg" width="120" height="120" style="border-radius: 50%; box-shadow: 0 0 20px rgba(233, 126, 179, 0.5); border: 3px solid #E97EB3; margin-bottom: 20px;">
+  <!-- 头像 -->
+  <img src="Picture/avatar.jpg" width="110" height="110" style="border-radius: 50%; box-shadow: 0 0 20px rgba(233, 126, 179, 0.4); border: 3px solid #E97EB3; margin-bottom: 20px;">
 
   <!-- 渐变标题 -->
-  <h1 style="background: linear-gradient(135deg, #E97EB3 0%, #8A66C2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0; font-size: 2.5rem;">
+  <h1 style="background: linear-gradient(135deg, #E97EB3 0%, #8A66C2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 10px 0; font-size: 2.2rem;">
     Mizuki Bot 帮助文档
   </h1>
 
   <!-- 经典台词 -->
-  <p style="color: #888; font-style: italic; margin-bottom: 20px; font-weight: bold;">
+  <p style="color: #888; font-style: italic; margin-bottom: 15px; font-weight: bold;">
     「 ボクは……ボクでいたいだけ 」
   </p>
 
@@ -23,7 +23,7 @@
   <br>
 
   <!-- 介绍文字 -->
-  <p style="font-size: 16px; line-height: 1.8; max-width: 600px; margin: 0 auto; color: var(--textColor);">
+  <p style="font-size: 15px; line-height: 1.6; max-width: 600px; margin: 0 auto; color: #555;">
     <b>Mizuki Bot</b> 专注于为 <b>Project Sekai</b> 和 <b>舞萌 DX</b><br>
     玩家提供最便捷的查询服务。
   </p>
@@ -33,33 +33,57 @@
 <br>
 <br>
 
-<!-- 功能导航卡片 -->
-<!-- 注意：这里的链接指向了侧边栏对应的 MD 文件 -->
+<!-- ================= 功能卡片区域 (Flex布局) ================= -->
+<div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
 
-<a href="#/pjsk" class="card-link">
-  🎵 <b>PJSK 相关功能</b>
-  <span class="card-desc">查分、查榜、3D家园资源、玩家绑定、模拟抽卡</span>
-</a>
+  <!-- 卡片 1: PJSK -->
+  <a href="#/pjsk" style="text-decoration: none; width: 46%; min-width: 140px; flex-grow: 1;">
+    <div style="background: #fff0f6; padding: 20px 10px; border-radius: 15px; border: 2px solid #E97EB3; text-align: center; transition: transform 0.2s;">
+      <h3 style="margin: 0; color: #E97EB3; font-size: 1.1rem;">🎵 PJSK</h3>
+      <p style="font-size: 11px; margin: 8px 0 0; color: #666; line-height: 1.4;">
+        查分 · 查榜 · 3D家园<br>SK表情包制作
+      </p>
+    </div>
+  </a>
 
-<a href="#/meme" class="card-link">
-  🎨 <b>PJSK 表情制作</b>
-  <span class="card-desc">一键生成瑞希、奏等角色的自定义对话贴纸</span>
-</a>
+  <!-- 卡片 2: 舞萌 DX -->
+  <a href="#/maimai" style="text-decoration: none; width: 46%; min-width: 140px; flex-grow: 1;">
+    <div style="background: #fff; padding: 20px 10px; border-radius: 15px; border: 2px solid #ffcc00; text-align: center; transition: transform 0.2s;">
+      <h3 style="margin: 0; color: #ffcc00; font-size: 1.1rem;">🎰 舞萌 DX</h3>
+      <p style="font-size: 11px; margin: 8px 0 0; color: #666; line-height: 1.4;">
+        B50 查分 · 牌子进度<br>机厅排队助手
+      </p>
+    </div>
+  </a>
 
-<a href="#/maimai" class="card-link">
-  🎰 <b>舞萌 DX 专项</b>
-  <span class="card-desc">B50查分、牌子进度、机厅排队助手、运势查询</span>
-</a>
+  <!-- 卡片 3: 表情包 -->
+  <a href="#/meme" style="text-decoration: none; width: 46%; min-width: 140px; flex-grow: 1;">
+    <div style="background: #fff; padding: 20px 10px; border-radius: 15px; border: 2px solid #66ccff; text-align: center; transition: transform 0.2s;">
+      <h3 style="margin: 0; color: #66ccff; font-size: 1.1rem;">🎨 表情制作</h3>
+      <p style="font-size: 11px; margin: 8px 0 0; color: #666; line-height: 1.4;">
+        瑞希 · 奏 · 绘名<br>自定义对话生成
+      </p>
+    </div>
+  </a>
 
-<a href="#/tools" class="card-link">
-  🧩 <b>通用插件大全</b>
-  <span class="card-desc">MC互通、点歌、词云、Steam状态、群管工具</span>
-</a>
+  <!-- 卡片 4: 通用工具 -->
+  <a href="#/tools" style="text-decoration: none; width: 46%; min-width: 140px; flex-grow: 1;">
+    <div style="background: #fff; padding: 20px 10px; border-radius: 15px; border: 2px solid #99cc99; text-align: center; transition: transform 0.2s;">
+      <h3 style="margin: 0; color: #99cc99; font-size: 1.1rem;">🛠️ 通用工具</h3>
+      <p style="font-size: 11px; margin: 8px 0 0; color: #666; line-height: 1.4;">
+        群管 · 抽签 · 点歌<br>MC互通 · Steam
+      </p>
+    </div>
+  </a>
 
-<a href="#/contribution" class="card-link">
-  🏆 <b>贡献者与鸣谢</b>
-  <span class="card-desc">查看开发团队名单</span>
-</a>
+  <!-- 卡片 5: 贡献者 -->
+  <a href="#/contribution" style="text-decoration: none; width: 94%; min-width: 140px; flex-grow: 1;">
+    <div style="background: linear-gradient(to right, #fdfbfb, #ebedee); padding: 15px; border-radius: 15px; border: 2px solid #ccc; text-align: center;">
+      <h3 style="margin: 0; color: #555; font-size: 1.1rem;">🏆 贡献者与鸣谢</h3>
+      <p style="font-size: 11px; margin: 5px 0 0; color: #666;">
+        查看开发团队名单
+      </p>
+    </div>
+  </a>
 
-<br>
-<br>
+</div>
