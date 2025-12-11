@@ -7,111 +7,132 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
   
-  <!-- 1. 引入样式 -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css" title="docsify-darklight-theme" type="text/css" />
+  <!-- 1. 换回官方 Vue 主题 (纯白，无夜间模式) -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
 
   <style>
-    /* --- 🎨 核心样式定制 --- */
+    /* --- 🎀 全局 UI 圆角化与粉色定制 --- */
     :root {
-      --docsify_darklight_theme_color: #E97EB3;
+      --theme-color: #E97EB3;
+    }
+    
+    body {
+      background-color: #f5f7fa; /* 淡淡的灰背景，让白色卡片更明显 */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    /* 核心：内容区域卡片化 + 圆角 */
+    .markdown-section {
+      background-color: #fff;
+      margin: 20px auto;
+      padding: 30px 40px !important;
+      border-radius: 20px; /* 大圆角 */
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03); /* 很浅的阴影 */
+      max-width: 900px;
+    }
+
+    /* 链接颜色 */
+    .markdown-section a {
+      color: #E97EB3;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    /* 图片圆角 */
+    .markdown-section img {
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    
+    /* 代码块圆角 */
+    .markdown-section pre {
+      border-radius: 12px;
+      background-color: #f8f8f8 !important;
+    }
+
+    /* 引用块 (Blockquote) 圆角 */
+    .markdown-section blockquote {
+      border-radius: 8px;
+      background: #fff5f9; /* 浅粉色背景 */
+      border-left: 4px solid #E97EB3;
+      color: #666;
+    }
+
+    /* 侧边栏样式 */
+    .sidebar {
+      background-color: #fff;
+      border-right: none;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.02);
+    }
+    .sidebar-nav li.active > a {
+      border-right: 2px solid #E97EB3;
+      color: #E97EB3;
+      background-color: #fff0f6; /* 选中时的浅粉背景 */
+      border-radius: 8px 0 0 8px; /* 左侧圆角 */
     }
 
     /* =========================================================
-       1. 【核心修复】把菜单按钮移到【右下角】
-       做成一个粉色的悬浮球，彻底解决左上角打架的问题
+       悬浮球按钮 (右下角)
        ========================================================= */
     .sidebar-toggle {
       position: fixed !important;
-      bottom: 30px !important;    /* 距底部 30px */
-      right: 30px !important;     /* 距右侧 30px */
-      top: auto !important;       /* 取消顶部定位 */
-      left: auto !important;      /* 取消左侧定位 */
-      
-      width: 50px !important;
-      height: 50px !important;
-      background: #E97EB3 !important; /* 粉色背景 */
-      border-radius: 50% !important;  /* 圆形 */
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
-      
-      /* 让里面的三道杠居中变白 */
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
+      bottom: 30px !important;
+      right: 30px !important;
+      top: auto !important; left: auto !important;
+      width: 50px !important; height: 50px !important;
+      background: #E97EB3 !important;
+      border-radius: 50% !important;
+      box-shadow: 0 4px 15px rgba(233, 126, 179, 0.4) !important;
+      display: flex !important; align-items: center !important; justify-content: center !important;
       z-index: 99999 !important;
     }
-    
-    /* 强行把三道杠变成白色 */
-    .sidebar-toggle span {
-      background-color: #fff !important;
-    }
+    /* 强制里面的横杠变白 */
+    .sidebar-toggle span { background-color: #fff !important; }
 
     /* =========================================================
-       2. 侧边栏布局优化
+       侧边栏 Logo
        ========================================================= */
-    .sidebar {
-      padding-top: 20px !important; /* 给顶部留点空隙 */
-      z-index: 10000 !important;
-      background-color: #ffffff; /* 确保背景不透明 */
-    }
-    body.dark .sidebar { background-color: #121212; }
-
-    /* 搜索框美化：给它一点下边距，别顶着头像 */
-    .sidebar .search {
-      margin-bottom: 20px !important;
-    }
-
-    /* Logo 区域样式 */
     .sidebar-logo-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 20px;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 30px 0 10px 0;
     }
     .sidebar-logo {
-      width: 80px; height: 80px;
-      border-radius: 50%;
+      width: 80px; height: 80px; border-radius: 50%;
       border: 3px solid #E97EB3;
       box-shadow: 0 4px 15px rgba(233, 126, 179, 0.3);
     }
     .sidebar-title-text {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #E97EB3;
-      margin-top: 10px;
+      font-size: 1.2rem; fontWeight: bold; color: #E97EB3; margin-top: 10px;
     }
 
     /* =========================================================
-       3. 搜索结果修复 (防止爆源码)
+       Loading 遮罩 (保留你的语录功能)
        ========================================================= */
-    .matching-post p, .matching-post code, .matching-post span { display: none !important; }
-    .matching-post h2, .matching-post h3 { font-size: 1rem !important; color: #E97EB3 !important; }
-    .matching-post { border-bottom: 1px solid rgba(0,0,0,0.05); padding: 10px 0; }
-
-    /* 4. Loading 遮罩 (纯净版) */
     #loading-mask {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background-color: #fff;
-      z-index: 999999;
+      background-color: #fff; z-index: 999999;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       transition: opacity 0.5s ease;
     }
-    body.dark #loading-mask { background-color: #121212; }
-
     #loading-avatar {
-      width: 110px; height: 110px; border-radius: 50%;
-      box-shadow: 0 0 25px rgba(233, 126, 179, 0.5);
-      margin-bottom: 25px;
+      width: 100px; height: 100px; border-radius: 50%;
+      box-shadow: 0 0 25px rgba(233, 126, 179, 0.5); margin-bottom: 25px;
       animation: breathe 2s infinite ease-in-out;
     }
     #loading-quote-jp { font-size: 1.1rem; font-weight: bold; color: #E97EB3; margin-bottom: 10px; text-align: center; padding: 0 20px;}
     #loading-quote-cn { font-size: 0.95rem; color: #888; font-style: italic; text-align: center; padding: 0 20px;}
     @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+    
+    /* 隐藏丑陋的默认搜索正文 */
+    .matching-post p, .matching-post code { display: none !important; }
+    .matching-post h2 { color: #E97EB3 !important; }
+
   </style>
 </head>
 
 <body>
 
-  <!-- ✨ Loading 遮罩 ✨ -->
+  <!-- Loading -->
   <div id="loading-mask">
     <img id="loading-avatar" src="Picture/avatar.jpg" alt="Mizuki">
     <div id="loading-quote-jp"></div>
@@ -121,44 +142,30 @@
   <div id="app"></div>
 
   <script>
-    // --- 瑞希语录 ---
+    // --- 语录逻辑 ---
     const quotes = [
       { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
       { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
-      { jp: "「 ま、ボクは可愛ければなんでもいいけどね♪ 」", cn: "嘛，对我来说只要可爱就都行啦♪" },
       { jp: "「 25時、ナイトコードで。 」", cn: "25时，在 Nightcord 见。" },
-      { jp: "「 逃げ続けるのも、悪くないかもね 」", cn: "一直逃避下去，或许也不坏呢" },
-      { jp: "「 ボクの正体？ ……ふふ、秘密だよ 」", cn: "我的真面目？……呵呵，是秘密哦" },
-      { jp: "「 君も、こっち側に来る？ 」", cn: "你也要，来这边吗？" },
-      { jp: "「 未確定なままでいいんじゃない？ 」", cn: "保持未确定的状态，不也挺好吗？" },
-      { jp: "「 ニーゴのみんなは、特別だから 」", cn: "因为 25 时的大家，是特别的" },
       { jp: "「 かわいいは正義！だよね？ 」", cn: "可爱即正义！对吧？" },
-      { jp: "「 ほらほら、早くしないと置いてっちゃうよ〜 」", cn: "看吧看吧，不快点的话就要丢下你咯〜" },
-      { jp: "「 絵名、また自撮り？ふふっ 」", cn: "绘名，又在自拍？呵呵" },
-      { jp: "「 永遠なんてない、だからこそ…… 」", cn: "永远什么的并不存在，正因为如此……" },
-      { jp: "「 屋上って、風が気持ちいいよね 」", cn: "天台的风，真的很舒服呢" },
       { jp: "「 ボクのこと、知りたい？ 」", cn: "想知道，关于我的事吗？" }
     ];
-
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
     const elJp = document.getElementById('loading-quote-jp');
     const elCn = document.getElementById('loading-quote-cn');
     if (elJp) elJp.innerHTML = randomQuote.jp;
     if (elCn) elCn.innerHTML = randomQuote.cn;
 
-    // --- Loading 强制 2秒 ---
+    // Loading 2秒消失
     window.addEventListener('load', function() {
       setTimeout(function() {
         const mask = document.getElementById('loading-mask');
-        if (mask) {
-          mask.style.opacity = '0';
-          setTimeout(() => mask.remove(), 500); 
-        }
+        if (mask) { mask.style.opacity = '0'; setTimeout(() => mask.remove(), 500); }
       }, 2000); 
     });
 
     window.$docsify = {
-      // 侧边栏 Logo (HTML)
+      // 侧边栏 Logo
       name: `
         <div class="sidebar-logo-container">
           <img src="Picture/avatar.jpg" class="sidebar-logo">
@@ -171,12 +178,15 @@
       subMaxLevel: 3,
       auto2top: true,
       
+      // 主题色
+      themeColor: '#E97EB3',
+      
       search: {
         paths: 'auto',
         placeholder: '🔍 搜指令...',
         noData: '找不到哦~',
         depth: 3, 
-        namespace: 'mizuki-bot-final-v2', // 再次刷新缓存
+        namespace: 'mizuki-ui-final', 
       },
       
       pagination: {
@@ -185,14 +195,7 @@
         crossChapter: true,
       },
 
-      darklightTheme: {
-        defaultTheme : 'light',
-        siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
-        dark: { accent: '#E97EB3', toogleBackground : '#ffffff', background: '#121212', textColor: '#f0f0f0', codeBackgroundColor: '#202020' },
-        light: { accent: '#E97EB3', toogleBackground : '#091a28', background: '#ffffff', textColor: '#34495e', codeBackgroundColor: '#f8f8f8' }
-      },
-
-      // 手机端点击侧边栏自动收起
+      // 手机端侧边栏收起逻辑
       plugins: [
         function(hook, vm) {
           hook.doneEach(function() {
@@ -211,10 +214,9 @@
     }
   </script>
 
-  <!-- 插件 -->
+  <!-- 插件 (移除了 darklight-theme) -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
