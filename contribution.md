@@ -9,13 +9,12 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
      ================================================= -->
 <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
 
-  <!-- 1. HX-Wrdzgzs -->
+  <!-- 1. HX-Wrdzgzs (头像路径已改为名字) -->
   <div style="background: #fff; border-radius: 12px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-grow: 1;">
     <img src="Picture/HX-Wrdzgzs.jpg" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #E97EB3;">
     <h4 style="margin: 8px 0 4px; font-size: 0.95rem;">HX-Wrdzgzs</h4>
     <span style="font-size: 11px; color: #E97EB3; font-weight: bold; display:block; margin-bottom:5px;">核心开发者</span>
     
-    <!-- 点击展开区域 -->
     <details style="font-size: 11px; color: #666; cursor: pointer;">
       <summary style="outline: none; color: #999;">点击查看介绍</summary>
       <p style="margin: 5px 0 0; line-height: 1.4; padding: 5px; background: #fafafa; border-radius: 5px;">
@@ -80,7 +79,7 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
     </details>
   </div>
 
-  <!-- 6. 公良寻竹 (已移除跳转链接) -->
+  <!-- 6. 公良寻竹 -->
   <div style="background: #fff; border-radius: 12px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-grow: 1;">
     <img src="Picture/Gongliang.jpg" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #ccc;">
     <h4 style="margin: 8px 0 4px; font-size: 0.95rem;">公良寻竹</h4>
@@ -99,18 +98,18 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
 <br>
 
 <!-- =================================================
-     ❤️ 开源与系统致谢 (Updated)
+     ❤️ 技术栈与致谢 (已更新 HongXingOS6 描述)
      ================================================= -->
 <h3 style="color: #E97EB3; border-left: 4px solid #E97EB3; padding-left: 10px;">❤️ 技术栈与致谢</h3>
 
-*   **Framework**: Koishi / Nonebot / Haruki Bot
+*   **Bot Framework**: Koishi / Nonebot / Haruki Bot
 *   **Website Design**: Te:River / HX-Wrdzgzs
 *   **Design**: uni_mayu (Logo) / HX-Wrdzgzs (UI)
 *   **Data Source**: Te:River
 
-<!-- 新增：HongXingOS6 致谢 -->
+<!-- HongXingOS6 致谢 -->
 <p style="margin-top: 15px; font-size: 0.9rem; color: #555; background: #f0f0f0; padding: 10px; border-radius: 8px; border-left: 3px solid #666;">
-  🖥️ <strong>Operation System</strong>: <br>
+  🖥️ <strong>System Framework</strong>: <br>
   Running on <strong>HongXingOS6</strong> (Created by HongXing Studio)
 </p>
 
